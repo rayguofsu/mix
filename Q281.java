@@ -20,6 +20,13 @@ The "Zigzag" order is not clearly defined and is ambiguous for k > 2 cases. If "
 
 It should return [1,4,8,2,5,9,3,6,7]. 
 //Uses a linkedlist to store the iterators in different vectors. Every time we call next(), we pop an element from //the list, and re-add it to the end to cycle through the lists.
+/* remember iterator usage
+        String[] sentence = {"a", "bc", "de"};
+        List<String> list = Arrays.asList(sentence);
+        Iterator<String> poll = list.iterator();
+        while(poll.hasNext()){
+          System.out.println("it is " + poll.next());*/
+
 public class ZigzagIterator {
     LinkedList<Iterator> list;
     public ZigzagIterator(List<Integer> v1, List<Integer> v2) {

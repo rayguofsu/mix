@@ -17,7 +17,7 @@ Credits:
 Special thanks to @memoryless for adding this problem and creating all test cases.
 
 public class Solution {
-
+//For space better algorithm, the reason of needing a vector for column , but scalar for row, is because the way we scan i.e. row by row, row needs to update like scalar for each row, as it is a complete new row each time, but column is not a new column, so we may reuse col[j] from last iteration.	
 
 //only need to store one killed enemies value for a row and an array of each column;
 //if current grid value is W, this means previous stored value becomes invalid, you need to recalculate.

@@ -58,41 +58,28 @@ The character '-' signifies an empty space on the screen.
 public class Solution {
     
 
-/*First off, we can easily come up with a brute-force solution. The basic idea of optimized solution is that
-
-    sub-problem: if there's a new line which is starting with certain index in sentence, what is the starting index of next line (nextIndex[]). BTW, we compute how many times the pointer in current line passes over the last index (times[]).
-    relation : ans += times[i], i = nextIndex[i], for _ in 0..<row. where i indicates what is the first word in the current line.
-
-Time complexity : O(n*(cols/lenAverage)) + O(rows), where n is the length of sentence array, lenAverage is the average length of the words in the input array.
-
-Well, It's not a typical "DP" problem and I am not even sure it is a "DP" problem. ( ͡° ͜ʖ ͡°)*/
+//start is not following the matrix row col, it follows all index only.
 
 public int wordsTyping(String[] sentence, int rows, int cols) {
-        int[] nextIndex = new int[sentence.length];
-        int[] times = new int[sentence.length];
-        for(int i=0;i<sentence.length;i++) {
-            int curLen = 0;
-            int cur = i;
-            int time = 0;
-            while(curLen + sentence[cur].length() <= cols) {
-                curLen += sentence[cur++].length()+1;
-                if(cur==sentence.length) {
-                    cur = 0;
-                    time ++;
+
+        //String[] sentence = {"a", "bc", "de"};
+        String all = "";
+        for (String word : sentence) all += (word + " ");
+        int start = 0, len = all.length();
+        int rows = 6;
+        int cols = 4;
+        for (int i = 0; i < rows; ++i) {
+            start += cols;
+            if (all.charAt(start % len) == ' ') {
+                ++start;
+            } else {
+                while (start > 0 && all.charAt((start - 1) % len) != ' ') {
+                    --start;
                 }
             }
-            nextIndex[i] = cur;
-            times[i] = time;
+            System.out.println("start is at " + start);
         }
-        int ans = 0;
-        int cur = 0;
-        for(int i=0; i<rows; i++) {
-            ans += times[cur];
-            cur = nextIndex[cur];
-        }
-        return ans;
-    }
-
-
+        int total =  start / len;
+       // System.out.println("total is " + total);
 
 }
