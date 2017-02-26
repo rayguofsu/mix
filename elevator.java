@@ -59,6 +59,7 @@ public class Elevator {
 //　　在程序开发中只要是多线程肯定永远以实现Runnable接口为主，因为实现Runnable接口相比继承Thread类有如下好处：
 //->避免点继承的局限，一个类可以继承多个接口; ->适合于资源的共享
 public class RequestProcessCenter implements Runnable {
+    public static RequestProcessCenter instance = null;
     private LinkedList<Request> queue;
     public RequestProcessCenter( ) {
         queue = new LinkedList<Request>( );
@@ -87,7 +88,7 @@ public class RequestProcessCenter implements Runnable {
     public Request getNextRequest( ) {
         Request shortestReq = null;
         int shortest = Integer.MAX_VALUE;
-        int curFloor = Elevator.getInstance( ).getCurrentFloor( );
+        int curFloor = Elevator.getInstance( ).getCurrentFloor( ); //当在WARPPER下时候，这个ELEVATOR是一个具体的OBJ.
         for (Request item : queue) {
             int distance = Math.abs(curFloor - item.getToFloor( ) );
             if (distance < shortest) {
