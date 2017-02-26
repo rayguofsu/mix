@@ -1,6 +1,6 @@
 
 public class User {
-   private name;
+   private name;  //
    public pressButton(int toFloor) {
        Request req = new Request( toFloor);
        RequestProcessCenter  center = RequestProcessCenter.getInstance();
