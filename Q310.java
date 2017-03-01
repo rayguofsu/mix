@@ -91,6 +91,51 @@ public class Solution {
   }
 }
 
+
+below is my solution, has TLE
+public class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        List<Integer> res = new ArrayList<>();
+        if (n == 1){
+            res.add(0);
+            return res;
+        }
+        if (edges == null || edges.length ==0 || edges[0] == null || edges[0].length == 0) return res;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < edges.length; i++){
+            List<Integer> l1 = map.getOrDefault(edges[i][0], new ArrayList<>());
+            l1.add(edges[i][1]);
+            map.put(edges[i][0], l1);
+            List<Integer> l2 = map.getOrDefault(edges[i][1], new ArrayList<>());
+            l2.add(edges[i][0]);
+            map.put(edges[i][1], l2);           
+        }
+        Set<Integer> leaf = new HashSet<>();
+        while(map.size() > 2){
+            for (int key: map.keySet()){
+                List<Integer> l = map.get(key);
+                if (l.size() == 1){
+                    leaf.add(key);
+                    //map.remove remember is wrong here; it cause concurrentmodifiy error as iteratting map
+                } 
+            }
+            for (int key: leaf){
+                System.out.println(key);
+                int end = map.get(key).get(0);
+                System.out.println(key + " " + end);
+                map.get(end).remove((Integer) key);
+                map.remove(key);
+            }
+            leaf.clear(); //remember this.
+        }
+        for (int key: map.keySet()){
+            res.add(key);
+        }  
+        return res;
+    }
+}
+
+
 /*
 public class HashSetDemo {
    public static void main(String args[]) {
