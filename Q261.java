@@ -36,19 +36,12 @@ public class Solution {
         if (n == 1) return true;
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int i = 0; i < edges.length; i++){
-            List<Integer> left = map.get(edges[i][0]);
-            List<Integer> right = map.get(edges[i][1]);
-            if (left == null) {
-                left = new ArrayList<>();
-                map.put(edges[i][0], left);
-            }
-            
-            if (right == null) {
-                right = new ArrayList<>();
-                map.put(edges[i][1], right);
-            }
+            List<Integer> left = map.getOrDefault(edges[i][0], new ArrayList<>());
+            List<Integer> right = map.getOrDefault(edges[i][1], new ArrayList<>());      
             left.add(edges[i][1]);
             right.add(edges[i][0]);
+            map.put(edges[i][0], left);
+            map.put(edges[i][1], right);
         }
         int[] path = new int[n];
         boolean loop = dfs(map, path, 0, 0);   //for square question, need to have for loop here also
