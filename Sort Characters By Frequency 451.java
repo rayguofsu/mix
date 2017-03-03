@@ -28,7 +28,7 @@ public class Solution {
                 return o2.getValue() - o1.getValue();
             }
         });
-        pq.addAll(freqMap.entrySet());
+        pq.addAll(freqMap.entrySet());  //remember
         StringBuilder sb = new StringBuilder();
         while(!pq.isEmpty()){
             Map.Entry e = pq.poll();
