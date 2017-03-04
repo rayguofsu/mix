@@ -20,6 +20,13 @@ Example 3:
 Given ["a", "aa", "aaa", "aaaa"]
 Return 0
 No such pair of words. 
+   
+   
+   其实因为全部都是小写的字母，用int 就可以存储每一位的信息。这就是位运算
+
+    elements[i] |= 1 << (words[i][j] – ‘a’);   //把words[i][j] 在26字母中的出现的次序变为1
+     elements[i] & elements[j]    // 判断是否有交集只需要两个数 按位 与 （AND）运算即可
+
 public class Solution {//on line bit manipulation: Java O(N*N) solution
 public int maxProduct(String[] words) {
    int res = 0;
