@@ -23,17 +23,12 @@ public class Solution {
             res.add(s);
             return;
         }
-        for (int i = pos; i < digits.length(); i++){
-            char[] cs = map[digits.charAt(pos) - '0'];
-            for (int j = 0; j < cs.length; j++){
- //               System.out.println("cs[j] is " + cs[j] + " i is " + i);
-                helper(digits, map, i + 1, res, s + cs[j]);
-            }
+        char[] cs = map[digits.charAt(pos) - '0'];
+        for (int j = 0; j < cs.length; j++){
+            helper(digits, map, pos + 1, res, s + cs[j]);
         }
-        
     }
 }
-
 
 
 public class Solution {
