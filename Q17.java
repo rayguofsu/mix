@@ -10,6 +10,31 @@ Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 
 Note:
 Although the above answer is in lexicographical order, your answer could be in any order you want. 
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        if (digits == null || digits.length() == 0) return res;
+        char[][] map = {{}, {}, {'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}, {'j', 'k', 'l'}, {'m', 'n', 'o'}, {'p', 'q', 'r', 's'}, {'t', 'u', 'v'}, {'w', 'x', 'y', 'z'}};
+        helper(digits, map, 0, res, "");
+        return res;
+    }
+    private void helper(String digits, char[][] map, int pos, List<String> res, String s){
+        if (s.length() == digits.length()){
+            res.add(s);
+            return;
+        }
+        for (int i = pos; i < digits.length(); i++){
+            char[] cs = map[digits.charAt(pos) - '0'];
+            for (int j = 0; j < cs.length; j++){
+ //               System.out.println("cs[j] is " + cs[j] + " i is " + i);
+                helper(digits, map, i + 1, res, s + cs[j]);
+            }
+        }
+        
+    }
+}
+
+
 
 public class Solution {
     public List<String> letterCombinations(String digits) {
