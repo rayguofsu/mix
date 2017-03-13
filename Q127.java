@@ -21,7 +21,7 @@ Note:
     Return 0 if there is no such transformation sequence.
     All words have the same length.
     All words contain only lowercase alphabetic characters.
-public class Solution {
+public class Solution {//O(n*m( n IS THE LENGTH OF BEGINWORD, m is the size of wordList
     public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
        if (beginWord.equals(endWord)) return 1;
        Map<String, Integer> map = new HashMap<String, Integer>();
