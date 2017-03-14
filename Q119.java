@@ -14,6 +14,21 @@
 // [1,4,6,4,1]
 //]
 //
+
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        while(rowIndex > 0){
+            for (int i = 0; i < list.size() - 1; i++){
+                list.set(i, list.get(i) + list.get(i + 1));
+            }
+            list.add(0, 1);
+            rowIndex--;
+        }
+        return list;
+    }
+
+
 public class Solution {
     public List<Integer> getRow(int rowIndex) {//to use bottom up solution
 
