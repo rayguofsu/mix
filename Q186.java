@@ -8,6 +8,24 @@ Given s = "the sky is blue",
 return "blue is sky the".
 
 Could you do it in-place without allocating extra space? 
+   public static void reverseWords(char[] s) {//mine
+        //first reverse the entire word
+        //the sky is blue becomes " eulb si kys eht"
+        //then reverse each word
+        //it becomes "blue is sky the"
+        reverse(s, 0, s.length-1);
+        int start = 0;
+        int i = 0;
+        while(i < s.length){
+            if (s[i] == ' '){
+              reverse(s, start, i - 1);
+              start = i + 1;
+            }
+            i++;
+        }
+        reverse(s, start, s.length - 1);
+    }
+
 
 public class Solution {
     public void reverseWords(char[] s) {
