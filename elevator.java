@@ -22,6 +22,7 @@ public class Request {
 
 public class Elevator {
     public static Elevator instance = null;
+    private Elevator(){}
     private int currentFloor;
     public static Elevator() {//seems like do not need this constructor; just use the getInstance to make sure it is only one obj (singleton)
         if (instance == null) {  // late loading and eager loading
