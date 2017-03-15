@@ -23,7 +23,7 @@ public class Request {
 public class Elevator {
     public static Elevator instance = null;
     private int currentFloor;
-    public static Elevator() {
+    public static Elevator() {//seems like do not need this constructor; just use the getInstance to make sure it is only one obj (singleton)
         if (instance == null) {  // late loading and eager loading
                     // connection pool
             synchronized (Elevator.class) {
@@ -35,7 +35,7 @@ public class Elevator {
 
     public static Elevator getInstance() {
         if (instance == null) {
-                synchronized (SingletonDemo.class) {
+                synchronized (SingletonDemo.class) {//could be Elevator.class
                     instance = new Elevator();
                 }
         }
@@ -67,9 +67,9 @@ public class RequestProcessCenter implements Runnable {
     public static RequestProcessCenter getInstance() {
       if (instance == null) {
          synchronized(RequestHandler.class) {
-            if (instance == null) {
+           // if (instance == null) {
                instance = new RequestHandler();
-            }
+            //}
          }
       }
       return instance;
