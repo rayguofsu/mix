@@ -29,6 +29,40 @@ Discard half each time: n+(n/2)+(n/4)+..+1 = n + (n-1) = O(2n-1) = O(n), because
 Quick Select Solution Code:
 */
 //Quickselect 的平摊复杂度是 Ɵ(n)，而最坏情况下复杂度是 Ɵ(n2)，n = 元素数量
+    public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k <= 0) return -1;
+        return helper(nums, 0, nums.length - 1, k);
+
+    }
+    private int helper(int[] nums, int lo, int hi, int k){
+        int left = lo;
+        int last = nums[hi];
+        for (int i = lo; i <= hi; i++){
+            if (nums[i] > last){
+                swap(nums, i, left++);
+            }
+        }
+        swap(nums, left, hi);
+        if (left == k - 1) return nums[left];
+        else if (left > k - 1) {
+            return helper(nums, lo, left - 1, k);
+        }
+        else return helper(nums, left + 1, hi, k);
+    }
+    void swap(int[] A, int i, int j) {
+    int tmp = A[i];
+    A[i] = A[j];
+    A[j] = tmp;             
+}
+}
+
+
+    
+    
+    
+    
+    
 public int findKthLargest(int[] nums, int k) {
     if (nums == null || nums.length == 0) return Integer.MAX_VALUE;
     return findKthLargest(nums, 0, nums.length - 1, nums.length - k);
