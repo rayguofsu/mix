@@ -1,0 +1,2 @@
+哦，明白了，就是每个mapper把它那里的top k送到reducer，然后reducer找它这里的top k个，是吧？
+mapper那里是局部的，reducer那里是全局的
