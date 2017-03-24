@@ -19,6 +19,19 @@ public class Request {
     }
 }
 
+public class ThreadSafeSingleton {//this is a good reference from on line
+
+    private static ThreadSafeSingleton instance;
+    
+    private ThreadSafeSingleton(){}
+    
+    public static synchronized ThreadSafeSingleton getInstance(){
+        if(instance == null){
+            instance = new ThreadSafeSingleton();
+        }
+        return instance;
+    }
+}
 
 public class Elevator {
     public static Elevator instance = null;
