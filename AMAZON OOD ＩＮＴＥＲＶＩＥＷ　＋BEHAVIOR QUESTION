@@ -1,0 +1,113 @@
+https://www.careercup.com/page?pid=amazon-interview-questions&topic=object-oriented-design-interview-questions
+http://wdxtub.com/interview/14520604447653.html
+https://www.glassdoor.com/Interview/Amazon-San-Francisco-Interview-Questions-EI_IE6036.0,6_IL.7,20_IM759_IP3.htm?filter.jobTitleFTS=software
+
+:(. Prepare on arrays, strings, trees and don't forget graph. Also dynamic programming will be helpful. Hash data structure is important and keep it in mind always while solving problems. Also its very important to read AWS interview blogs, glass door, career cup etc. and solve the problems posted there. If you are not currently interviewing I will suggest you to prepare for 4 weeks (prepare with writing code on paper) before the interview.
+4) Amazon do concentrate on leadership principles and ask many questions related to behavior etc. So prepare it very well. These questions like 'why amazon' are important and can be phrased into multiple ways.
+5) Design questions: Ask questions while solving to clarify and keep on building the system … do some practice at home. I will suggest to first concentrate on computer science questions like OS, file system design and then work on more generic like design coffee shop etc.
++DESIGN PATTERN
+http://www.journaldev.com/1827/java-design-patterns-example-tutorial
+
+https://zhuanlan.zhihu.com/p/20346977
+
+5 behavior Question: 1）你曾经做过什么超出工作预期的事情 
+2） 你做Project的时候突然发生意想不到的困难，你是怎么解决的 
+3） 你有没有没赶上DeadLine的项目 
+4） 你有没有和老板意见不统一的时候，是怎么解决的 
+5） 你有没有和同事意见不一致，是怎么解决的 
+6） 你有没有Convince过别人做一件什么事 
+7） 你可以为我的Team带来什么 
+8） 怎么证明你是TeamPlayer，你为你的同事做过什么吗 
+9） 你做了什么加强你和同事的联系，增加彼此的信任感 
+10) 你有没有主动去做过一个项目 
+11) 当你遇到不知道选哪个方案时，你怎么办 
+12) 你在做项目的时候都是怎么获取知识的
+
+链接: https://instant.1point3acres.com/thread/137995
+来源: 一亩三分地
+
+
+
+
+Behavior Interview 主要是考察你是否与公司有着同样的信念，是否是一个高人品的、积极向上的人。准备Behavior Interview的最好办法就是阅读该公司官方发布的culture fit相关资料。
+
+
+Amazon的behavior questions当中的一大考点是leadership。而且Amazon对于leadership也有着自己的一些key principles.
+
+
+今天，我们通过阅读Amazon 官方的 《Our Leadership Principles》来看Amazon的主要 behavior interview 考点。英文原文，请点击“阅读原文”。
+
+
+用户为上帝 Customer Obsession
+
+Leaders应以客户为出发点，努力赢得和维护客户的信任。虽然Leaders应该关注竞争对手，但应该花更多时间在自己的用户身上。
+
+
+主人翁意识 Ownership
+
+Leaders同时也是公司的主人。他们会考虑长远的利益，而不会牺牲长远利益去追求眼前利益。他们以整个公司的利益为行动的出发点，而不是一个team的利益。他们不会用“that’s not my job” 去搪塞。
+
+
+创新与简单化 Invent and Simplify
+
+Leaders应该是一个有创造力和创新精神的人，且常常可以寻找到简单易行的方法。他们无时无刻不在不在寻找创新的方法，不为常规所困。
+
+
+明智的 Are Right, A Lot
+
+Leaders 常常是非常明智的。他们有很强的商业判断力和很好的直觉。他们会从不同的角度去看问题，去反证自己的观点。
+
+
+任用和擢升人才 Hire and Develop the Best
+
+一个优秀的 Leader 往往通过招聘和晋升来提升整个团队的绩效(performance)。他们能从团队中挖掘出精英，并且帮助他们在团队中晋升。一个优秀的Leader，往往能够培养出无数的leaders, 并且很严肃认真地指导这些后晋之辈。
+
+
+高标准严要求 Insist on the Highest Standards
+
+一个优秀的leader往往有很高的标准-大部分人会认为这些所谓的标准完全不合理。一个优秀的leader会不断提升其团队的bar并驱动团队的人去创造高质量的产品、服务.
+
+心有多大舞台就有多大 Think Big
+
+一个优秀的leader 往往是一个think big的人。他们常常能从一个宏大的视角去推动这个项目，挖掘任何一个小的角度去更好地服务用户。
+
+
+行动派/实干派 Bias for Action
+
+一个优秀的leaders往往是一个行动派。在商业中，速度是非常重要的。很多决策和行动往往是可纠正、可调节的。因此，并不需要太多的research来支撑。
+
+
+节俭的 Frugality
+
+leaders往往希望用更少地资源完成更多的事情。而为自己设定资源限制，有助于提升效益，激发创造力。
+
+永远保持好奇心和上进心 Learn and Be Curious
+
+leaders永远都在学习和提升自己。他们对一切新的机会充满好奇心，并采取行动拓展新的机会。
+
+受他人信赖的 Earn Trust
+
+leaders一般会做到用心听他人说话，待人坦诚、并且充分尊重他人。而同时，他们也常常会自我批评，一点儿也不在乎是否让自己丢份儿。
+
+深入挖掘 Dive Deep
+
+leaders 往往关注和操持各个层面的人事，专注于各种各样的细节。没有什么事情能逃过他们的眼睛。
+
+有决心和信念 Have Backbone; Disagree and Commit
+
+leaders往往有很强的信念和决心。他们不会轻易妥协。一旦事情决定了，他们就会坚决贯彻到底。
+
+以结果为导向 Deliver Results
+
+leaders往往以结果为导向，专注于对事情有帮助的要素。当面对挫折时，他们从不妥协，用于克服。
+
+
+
+
+OA是两道题，3个小时。是在hackrank上做的。一道题是类似trap rain water I，另一道题目是类似Minimum Window Substring。因为之前做过这两道题目，所以有印象。但用同样的方法，分别有两三个测试用例没通过。
+
+做了之后，第二天HR就联系我，给了我onsite interview的机会。两周的准备时间。onsite interview是5轮1对1。代码写白板的。5轮里，两轮是behavior questions。三轮是算法题加behavior questions。
+
+算法题分别是tree serializaiton/deserialization，number of island I的变种, Binary Tree Zigzag Level Order Traversal。题目都做过。就是写完后，没检查，比如漏写了new，应该用arraylist，而不是linkedlist，对special case没处理。面试官一提醒，我就反应过来了。我需要拿一个例子来过一遍我的程序，有点类似debug，几个参数的变化是怎样的，都要表述很清楚。Zigzag那道题目有个follow up，就是可以增加时间复杂度，来减少空间复杂度。我没想出来。
+
+behavior questions这部分，我准备的时候，有找学校的career center帮我过了一遍Amazon Leadership Principles，我准备了我要问面试官的题目，准备了如何回答“如果到截止日期没完成任务怎么办”，“我有什么缺点”，“和同事不同意见怎么办”。主要都是要结合自己的实习，individual projects，course projects的例子来回答。我在九章的安卓课的todo和dribbble的projects，就作为好几个我回答behavior questions的例子，比如todo中使用recycler view可以减少内存使用，上升到我要考虑用户体验的角度。我还在白板上画图。面试官有追问，如果todo list量太大，需要remote，然后用户手机内存不同，如何load合适的todo list信息到用户手机上。我当时不怎么确定。就在白板上画图。比如服务器有一万条todo list，服务器的cache存1000条。然后用户手机具体一次加载多少条，我可以设置一个百分比（这个todo app使用的memory cost / 用户手机的memory）。这点其实我不怎么确定。
