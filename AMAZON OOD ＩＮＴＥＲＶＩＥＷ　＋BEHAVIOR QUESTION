@@ -2,7 +2,7 @@ abstract class can extend only one class or one abstract class at a time 	 inter
 https://www.careercup.com/page?pid=amazon-interview-questions&topic=object-oriented-design-interview-questions
 http://wdxtub.com/interview/14520604447653.html
 https://www.glassdoor.com/Interview/Amazon-San-Francisco-Interview-Questions-EI_IE6036.0,6_IL.7,20_IM759_IP3.htm?filter.jobTitleFTS=software
-
++AMAZON 总结121PAGES
 :(. Prepare on arrays, strings, trees and don't forget graph. Also dynamic programming will be helpful. Hash data structure is important and keep it in mind always while solving problems. Also its very important to read AWS interview blogs, glass door, career cup etc. and solve the problems posted there. If you are not currently interviewing I will suggest you to prepare for 4 weeks (prepare with writing code on paper) before the interview.
 4) Amazon do concentrate on leadership principles and ask many questions related to behavior etc. So prepare it very well. These questions like 'why amazon' are important and can be phrased into multiple ways.
 5) Design questions: Ask questions while solving to clarify and keep on building the system … do some practice at home. I will suggest to first concentrate on computer science questions like OS, file system design and then work on more generic like design coffee shop etc.
