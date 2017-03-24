@@ -1,3 +1,4 @@
+abstract class can extend only one class or one abstract class at a time 	 interface can extend any number of interfaces at a time
 https://www.careercup.com/page?pid=amazon-interview-questions&topic=object-oriented-design-interview-questions
 http://wdxtub.com/interview/14520604447653.html
 https://www.glassdoor.com/Interview/Amazon-San-Francisco-Interview-Questions-EI_IE6036.0,6_IL.7,20_IM759_IP3.htm?filter.jobTitleFTS=software
@@ -7,6 +8,132 @@ https://www.glassdoor.com/Interview/Amazon-San-Francisco-Interview-Questions-EI_
 5) Design questions: Ask questions while solving to clarify and keep on building the system … do some practice at home. I will suggest to first concentrate on computer science questions like OS, file system design and then work on more generic like design coffee shop etc.
 +DESIGN PATTERN
 http://www.journaldev.com/1827/java-design-patterns-example-tutorial
+Design Pattern has 3 types: 
+      Creational;          Structual;      Behavioral;
+(known singleton, factory; adaptor; chain of responsilibty)
+Creational has two examples:
+
+1). Singleton:
+public class ThreadSafeSingleton {//this is a good reference from on line
+
+    private static ThreadSafeSingleton instance;
+    
+    private ThreadSafeSingleton(){}
+   
+   public static ThreadSafeSingleton getInstanceUsingDoubleLocking(){//better double checked
+    if(instance == null){
+        synchronized (ThreadSafeSingleton.class) {
+            if(instance == null){
+                instance = new ThreadSafeSingleton();
+            }
+        }
+    }
+    return instance;
+}
+
+2). Factory Design Pattern;Factory design pattern is used 
+when we have a super class with multiple sub-classes and based on input, we need to return one of the sub-class. 
+
+public abstract class Computer {//super class
+	
+	public abstract String getRAM();
+	public abstract String getHDD();
+	public abstract String getCPU();
+	
+	@Override
+	public String toString(){
+		return "RAM= "+this.getRAM()+", HDD="+this.getHDD()+", CPU="+this.getCPU();
+	}
+}
+package com.journaldev.design.model;
+
+public class PC extends Computer {
+	private String ram;
+	public PC(String ram){
+		this.ram=ram;
+	}
+	@Override
+	public String getRAM() {
+		return this.ram;
+	}
+}
+
+package com.journaldev.design.model;
+public class Server extends Computer {
+	private String ram;
+	public Server (String ram){
+		this.ram=ram;
+	}
+	@Override
+	public String getRAM() {
+		return this.ram;
+	}
+}
+public class ComputerFactory {//factory class
+	public static Computer getComputer(String type, String ram){
+		if("PC".equalsIgnoreCase(type)) return new PC(ram);
+		else if("Server".equalsIgnoreCase(type)) return new Server(ram);
+		return null;
+	}
+}
+Structual:
+1). adapter
+its used so that two unrelated interfaces can work together. socket and votage.
+package com.journaldev.design.adapter;
+public class Volt {
+	private int volts;
+	public Volt(int v){
+		this.volts=v;
+	}
+	public int getVolts() {
+		return volts;
+	}
+	public void setVolts(int volts) {
+		this.volts = volts;
+	}	
+}
+public class Socket {
+	public Volt getVolt(){
+		return new Volt(120);
+	}
+}
+public interface SocketAdapter {//could be abstract class
+	public Volt get120Volt();
+	public Volt get12Volt();
+}
+
+//Using inheritance for adapter pattern
+public class SocketClassAdapterImpl extends Socket implements SocketAdapter{
+  @Override
+	public Volt get120Volt() {
+		return getVolt();
+	}
+	@Override
+	public Volt get12Volt() {
+		Volt v= getVolt();
+		return convertVolt(v,10);
+	}
+	private Volt convertVolt(Volt v, int i) {
+		return new Volt(v.getVolts()/i);
+	}
+}
+
+2). Bridge(hard)
+
+Behavior:
+1). Chain of responsibility:\
+where a request from client is passed to a chain of objects to process them. Then the object in the chain will decide themselves 
+who will be processing the request and whether the request is required to be sent to the next object in the chain or not.
+http://www.journaldev.com/1617/chain-of-responsibility-design-pattern-in-java (all the codes comprise the OOD entirely includinging interface)
+//.......
+    this.c1 = new Dollar50Dispenser();
+		DispenseChain c2 = new Dollar20Dispenser();
+		DispenseChain c3 = new Dollar10Dispenser();
+
+		// set the chain of responsibility
+		c1.setNextChain(c2);
+		c2.setNextChain(c3);
+	}
 
 https://zhuanlan.zhihu.com/p/20346977
 
