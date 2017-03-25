@@ -1,0 +1,9 @@
+https://www.javacodegeeks.com/2013/03/difference-between-comparator-and-comparable-in-java.html
+https://www.tutorialspoint.com/spring/spring_dependency_injection.htm
+
+Comparator interface: Class whose objects to be sorted do not need to implement this interface.
+Some third class can implement this interface to sort.
+e.g.CountrySortByIdComparator class can implement Comparator interface to sort collection of country object by id. For example:
+
+
+moving zero 3 pointer is in separate file
