@@ -1,0 +1,7 @@
+Before looking at the difference between java.lang.RuntimeException and java.lang.Exception classes, you must know the Exception hierarchy. Both Exception and Error classes are derives from class Throwable (which derives from the class Object). And the class RuntimeException is derives from class Exception.
+
+All the exceptions are derives either from Exception or RuntimeException.
+
+All the exceptions which derives from RuntimeException are referred to as unchecked exceptions. And all the other exceptions are checked exceptions. A checked exception must be caught somewhere in your code, otherwise it will not compile. That is why they are called checked exceptions. In other hand, with unchecked exceptions, the calling method is under no obligation to handle or declare it.
+
+Therefore all the exceptions which compiler forces you to handle are directly derived from java.lang.Exception and all the other which compiler not forces you to handle are derived from java.lang.RuntimeException.
