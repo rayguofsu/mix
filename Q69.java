@@ -7,7 +7,24 @@ Compute and return the square root of x.
 //keep in mind that 
 //(1) (low+high)/2 is not the same with low+(high-low)/2 //the former can overflow
 //(2) mid*mid == x is not the same with mid == x/mid     //the former can overflow
-
+public class Solution {
+    public int mySqrt(int x) {
+        if (x <= 0) return 0;
+        int lo = 0, hi = x;
+        int res = 0;
+        while(lo <= hi){
+            int mid = lo + (hi - lo) / 2;
+            if (mid * mid <= x){
+                res = mid;
+                lo = mid + 1;
+            }
+            else{
+                hi = mid - 1;
+            }
+        }
+        return res;
+    }
+}
 public class Solution {
     public int mySqrt(int x) {
         if (x <= 0) return 0;
