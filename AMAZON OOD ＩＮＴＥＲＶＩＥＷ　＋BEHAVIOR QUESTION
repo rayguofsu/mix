@@ -1,4 +1,66 @@
 abstract class can extend only one class or one abstract class at a time 	 interface can extend any number of interfaces at a time
+// I say all motor vehicles should look like this:
+interface MotorVehicle
+{
+    void run();
+
+    int getFuel();
+}
+
+// My team mate complies and writes vehicle looking that way
+class Car implements MotorVehicle
+{
+
+    int fuel;
+
+    void run()
+    {
+        print("Wrroooooooom");
+    }
+
+
+    int getFuel()
+    {
+        return this.fuel;
+    }
+}
+
+Implementing an interface consumes very little CPU, because it's not a class, just a bunch of names, and therefore there isn't any expensive look-up to do. It's great when it matters, such as in embedded devices.
+Abstract classes
+
+Abstract classes, unlike interfaces, are classes. They are more expensive to use, because there is a look-up to do when you inherit from them.
+
+Abstract classes look a lot like interfaces, but they have something more: You can define a behavior for them. It's more about a guy saying, "these classes should look like that, and they have that in common, so fill in the blanks!".
+
+For example:
+
+// I say all motor vehicles should look like this:
+abstract class MotorVehicle
+{
+
+    int fuel;
+
+    // They ALL have fuel, so why not let others implement this?
+    // Let's make it for everybody.
+    int getFuel()
+    {
+         return this.fuel;
+    }
+
+    // That can be very different, force them to provide their
+    // implementation.
+    abstract void run();
+}
+
+// My teammate complies and writes vehicle looking that way
+class Car extends MotorVehicle
+{
+    void run()
+    {
+        print("Wrroooooooom");
+    }
+}
+
 https://www.careercup.com/page?pid=amazon-interview-questions&topic=object-oriented-design-interview-questions
 http://wdxtub.com/interview/14520604447653.html
 https://www.glassdoor.com/Interview/Amazon-San-Francisco-Interview-Questions-EI_IE6036.0,6_IL.7,20_IM759_IP3.htm?filter.jobTitleFTS=software
@@ -104,7 +166,7 @@ public interface SocketAdapter {//could be abstract class
 
 //Using inheritance for adapter pattern
 public class SocketClassAdapterImpl extends Socket implements SocketAdapter{
-  @Override
+ 	@Override
 	public Volt get120Volt() {
 		return getVolt();
 	}
