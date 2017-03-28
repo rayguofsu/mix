@@ -39,7 +39,31 @@ If you notice carefully in the flattened tree, each node's right child points to
  *     TreeNode(int x) { val = x; }
  * }
  */
-
+public class Solution {
+    public void flatten(TreeNode root) {
+        if (root != null) help(root);
+    }
+    private TreeNode help(TreeNode root){
+        if (root == null) return null;
+        if (root.left == null && root.right == null) return root;
+        TreeNode left = help(root.left);
+        TreeNode right = help(root.right);
+        if (left != null){
+            left.right = root.right;
+            root.right = root.left;
+            root.left = null;
+        }
+        return right == null ? left : right;//incase it is 
+        //     1
+        //    /
+        //   2
+        //  /
+        // 3 
+    }
+}
+         
+         
+         
 
 public class Solution {
     public void flatten(TreeNode root) {
