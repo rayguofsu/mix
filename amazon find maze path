@@ -1,0 +1,37 @@
+
+
+
+
+public class findMazepath {
+      private static boolean bfs(int[][] maze, int startx, int starty) {
+            // TODO Auto-generated method stub
+            if(maze == null)
+                  return false;
+            if(maze.length == 0 || maze[0].length == 0)
+                  return false;
+            LinkedList<Node>queue = new LinkedList<Node>();
+            int[][] Direction = {{-1,0}, {0, -1}, {1, 0}, {0, 1}}; //方向：左上右下     
+            Noden1 = new Node(0, 0, maze[0][0]);
+            queue.offer(n1);
+      
+            int M = maze.length;
+            int N = maze[0].length;
+            
+            while (!queue.isEmpty()) {
+                  Nodenode = queue.poll();
+                  if (node.val == 9) {
+                        return true;
+                  }
+                  for(int i = 0; i < 4; i++){
+                        int x = node.x + Direction[i][0];
+                        int y = node.y + Direction[i][1];
+                        //bfs
+                        if(x >= 0 && x < M && y >= 0 && y < N && maze[x][y] > 0){
+                              NodenewNode = new Node(x, y, maze[x][y]);
+                              queue.offer(newNode);
+                              maze[x][y] = -1;
+                        }
+                  }
+            }
+            return false;
+      }
