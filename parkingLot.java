@@ -87,7 +87,14 @@ public class ParkingSpace {
      public ParkingSpaceType getpSpaceType(){
          return pSpaceType;
      }
+   /* could use this instead of GreoorianCalendar
+long start = System.currentTimeMillis(); in mili second
 
+long time = System.currentTimeMillis() - start;
+System.out.printf("Took %.3f%n", time/1e3); 
+*/
+   
+   
      private class ParkingMeter{
          public GregorianCalendar start;
          public GregorianCalendar end;
