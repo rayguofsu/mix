@@ -10,7 +10,21 @@ For example, given [1,2,3,4], return [24,12,8,6].
 Follow up:
 Could you solve it with constant space complexity? (Note: The output array does not count as extra space for the purpose of space complexity analysis.)
 
-
+public class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        if (nums == null || nums.length == 0) return nums;
+        int[] res = new int[nums.length];
+        Arrays.fill(res, 1);
+        int leftP = 1, rightP = 1;
+        for (int i = 0; i < nums.length; i++){
+            res[i] *= leftP;
+            leftP *= nums[i];
+            res[nums.length - 1 - i] *= rightP;
+            rightP *= nums[nums.length - 1 - i];
+        }
+        return res;
+    }
+}
 public class Solution {
     //use two pointer; first left pointer scanning from left first; then right pointer scanning from right
     //update current array entry first then prepare the product for next entry
