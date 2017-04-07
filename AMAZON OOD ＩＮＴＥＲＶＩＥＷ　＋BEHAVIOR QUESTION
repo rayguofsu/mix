@@ -1,8 +1,8 @@
 ////////
 Java代码导致OutOfMemoryError错误的解决：
-
-需要重点排查以下几点：
-
+出现这个错误，一般是因为JVM物理内存过小。默认的Java虚拟机最大内存仅为64兆.
+BESIDES, 需要重点排查以下几点：
+    集合类中有对对象的引用，使用完后未清空，使得JVM不能回收；(just say program keep the instance around even if not needed, making JVM not able to recycle)
     检查代码中是否有死循环或递归调用。
     检查是否有大循环重复产生新对象实体。
     检查对数据库查询中，是否有一次获得全部数据的查询。一般来说，如果一次取十万条记录到内存，就可能引起内存溢出。
