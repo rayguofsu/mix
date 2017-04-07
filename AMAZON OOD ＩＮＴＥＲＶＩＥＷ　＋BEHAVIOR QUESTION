@@ -1,45 +1,108 @@
-abstract class can extend only one class or one abstract class at a time 	 interface can extend any number of interfaces at a time
+class Solution {
+  public static class Car{
+     String name = "xyz";
+     public Car(){}
+  }
+  public static class Moto extends Car{
+    String name = "abc";
+   /* public Moto(String name){
+       this.name = name;
+    }*/
+  }
+  public static void main(String[] args) {
+    Car base = new Moto();
+    Moto sub = new Moto();  //Moto sub = new Car() is illegal
+    System.out.println(base.name + " " + sub.name);
+  }
+}
+above prints: xyz abc
+
+
+=========================
+abstract class can extend only one class or one abstract class at a time 	 
+interface can extend any number of interfaces at a time
 // I say all motor vehicles should look like this:
-interface MotorVehicle
-{
+interface MotorVehicle{
     void run();
 
     int getFuel();
 }
 
 // My team mate complies and writes vehicle looking that way
-class Car implements MotorVehicle
-{
-
+class Car implements MotorVehicle{
     int fuel;
-
     void run()
     {
         print("Wrroooooooom");
     }
-
-
     int getFuel()
     {
         return this.fuel;
     }
 }
+===================injected code part start ==========================
+  /*public interface MotorVehicle{/**/this is my excercise code
+    int fuel = 12;//by default here, it means public static final int fule = 12;
+    public void run();  //cannot have void run(){}  cannot have {}
 
-Implementing an interface consumes very little CPU, because it's not a class, just a bunch of names, and therefore there isn't any expensive look-up to do. It's great when it matters, such as in embedded devices.
-Abstract classes
+    public int getFuel();
+  }
 
-Abstract classes, unlike interfaces, are classes. They are more expensive to use, because there is a look-up to do when you inherit from them.
+// My team mate complies and writes vehicle looking that way
+  public static class MotoCar implements MotorVehicle{
+    int fuel = 256; //means it is new variable; doing fule=256 is not allowed as final
+    public void run(){
+        System.out.println("Wrroooooooom");
+    }
+    public int getFuel(){
+        return fuel;
+    }
+  }
+  public static void main(String[] args) {
+    MotoCar mc = new MotoCar();
+    System.out.println(mc.fuel);  //will print 256
+  }*/
+  
+  ========another injected code=====
+    public static abstract class MotorVehicle{
+    public void run(){System.out.println("abc");}
+    public abstract int getFuel();  //put word abstract here is for override; any class extends it has to override this
+  }
 
-Abstract classes look a lot like interfaces, but they have something more: You can define a behavior for them. It's more about a guy saying, "these classes should look like that, and they have that in common, so fill in the blanks!".
+// My team mate complies and writes vehicle looking that way
+  public static class MotoCar extends MotorVehicle{
+    int fuel = 256; //means it is new variable; doing fule=256 is not allowed as final
+   /* public void run(){  //this will override MotoVehicle's method run
+        System.out.println("Wrroooooooom");
+    } */
+    public int getFuel(){
+        return fuel + 6;
+    }
+  }
+  public static void main(String[] args) {
+    MotoCar mv = new MotoCar(); //cannot instantiate abstract class directly! so mv = new MotorVehicle() is illegal
+    System.out.println(mv.fuel);
+    System.out.println(mv.getFuel());
+    mv.run();
+  } //prints 256, 262, abc.
+  
+==================injected code ends here ===================
+Implementing an interface consumes very little CPU, 
+because it's not a class, just a bunch of names, and 
+therefore there isn't any expensive look-up to do. It's great when it matters, such as in embedded devices.
+
+Abstract classes, unlike interfaces, are classes. 
+They are more expensive to use, because there is a look-up to do when you inherit from them.
+Abstract classes look a lot like interfaces, but they have something more: 
+You can define a behavior for them. 
+It's more about a guy saying, "these classes should look like that, and they have that in common, so fill in the blanks!".
 
 For example:
 
 // I say all motor vehicles should look like this:
 abstract class MotorVehicle
 {
-
     int fuel;
-
     // They ALL have fuel, so why not let others implement this?
     // Let's make it for everybody.
     int getFuel()
