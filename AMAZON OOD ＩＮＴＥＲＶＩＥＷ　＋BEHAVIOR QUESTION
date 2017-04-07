@@ -49,7 +49,7 @@ class Car implements MotorVehicle{
   }
 
 // My team mate complies and writes vehicle looking that way
-  public static class MotoCar implements MotorVehicle{
+  public static class MotoCar implements MotorVehicle{//this has to implement both the two methods, unless if it is abstract class implement MotoVehicle
     int fuel = 256; //means it is new variable; doing fule=256 is not allowed as final
     public void run(){
         System.out.println("Wrroooooooom");
