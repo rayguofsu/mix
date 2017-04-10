@@ -1,0 +1,25 @@
+Imple­men­ta­tion:
+
+    Use array to store the data.
+    Start stor­ing from index 1, not 0.
+    For any given node at posi­tion i:
+    Its Left Child is at [2*i] if available.
+    Its Right Child is at [2*i+1] if available.
+    Its Par­ent Node is at [i/2]if avail­able.
+
+
+Insert Oper­a­tion:
+
+    Add the ele­ment at the bot­tom leaf of the Heap.
+    Per­form the Bubble-Up operation.
+    All Insert Oper­a­tions must per­form the bubble-up oper­a­tion(it is also called as up-heap, percolate-up, sift-up, trickle-up, heapify-up, or cascade-up)
+
+
+Delete/pop Oper­a­tion:
+
+    Find the index for the ele­ment to be deleted. (INdex is 1 for pop up)
+    Take out the last ele­ment from the last level from the heap and replace the index with this element .
+    Per­form Sink-Down
+
+
+http://algorithms.tutorialhorizon.com/binary-min-max-heap/
