@@ -37,3 +37,40 @@ output:13.
     }
     return hi - 1;
   }
+  
+  draw a cricle:
+    public static void main(String[] args) {
+    int r = 100;
+    int x = r;
+    int y = 0;
+    List<int[]> points = new ArrayList<>();
+    while(x >= (int) (r * 0.717) && y <= (int) (r * 0.717)){
+      int dis = x * x + y * y;
+      if (dis == r * r){
+         points.add(new int[]{x, y});
+         x--;
+         y++;
+      }
+      else if (dis < r * r){
+         y++;
+      }
+      else{
+         x--;
+      }
+    }
+    List<int[]> res = new ArrayList<>();
+    //can use hashset to avoid duplicates here; like 0 = p[0]; -p[0] gives the same 0
+    for (int[] p : points){
+        res.add(p);
+        res.add(new int[]{-p[0], p[1]});
+        res.add(new int[]{p[0], -p[1]});
+        res.add(new int[]{-p[0], -p[1]});
+      
+        res.add(new int[]{p[1], p[0]});
+        res.add(new int[]{-p[1], p[0]});
+        res.add(new int[]{p[1], -p[0]});
+        res.add(new int[]{-p[1], -p[0]});        
+    }
+    for (int[] a: res){   
+      System.out.println(Arrays.toString(a));
+    }
