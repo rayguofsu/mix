@@ -1,0 +1,26 @@
+
+
+Mutable objects have fields that can be changed, immutable objects have no fields that can be changed after the object is created.
+
+A very simple immutable object is a object without any field. (For example a simple Comparator Implementation).
+
+class Mutable{
+  private int value;
+
+  public Mutable(int value) {
+     this.value = value;
+  }
+
+  getter and setter for value
+}
+
+class Immutable {
+  private final int value;
+
+  public Immutable(int value) {
+     this.value = value;
+  }
+
+  only getter
+}
+
