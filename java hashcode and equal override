@@ -1,0 +1,45 @@
+   Hashing retrieval is a two-step process.
+
+    Find the right bucket (using hashCode())
+    Search the bucket for the right element (using equals() )
+why override both? 
+If only override equals, then java will assign different hashcode to different obj; then adding new [1 1] and new [1 1] will duplicate show up;
+If only override hashCode, then after reaching the same hash bucket (when do contains(obj)), java will not know they are equal or not as equals is not redefined. 
+I guess that the default equals method in java is to compare the memeory address of the obj is equal or not, different from what we want to achieve.
+
+
+
+
+    public class Point{//miss any one override, it will be wrong.
+        int x, y;
+        Point(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+        @Override
+        public boolean equals(Object o){
+            if (o instanceof Point){
+                Point p = (Point) o;
+                return p.x == x && p.y == y;
+            }
+            else return false;
+        }
+        @Override
+        public int hashCode(){
+            int result = 17;
+            result = 31 * result + x;
+            result = 31 * result + y;
+            return result;
+        }
+    }
+    public int[] twoSum(int[] nums, int target) {
+        int[] res = null;
+        Set<Point> set = new HashSet<>();
+        set.add(new Point(1, 1));
+        set.add(new Point(1, 1));
+        for (Point p: set){
+            System.out.println(p.x + " " + p.y);
+        }
+        return res;
+        
+    }
