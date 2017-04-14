@@ -1,3 +1,27 @@
+Difference between lock and synchronized:
+A ReentrantLock is unstructed, can hold a lock across methods, e.g.
+private ReentrantLock lock;
+public void foo(){
+  ...
+  lock.lock();
+  ...
+}
+public void bar(){
+...
+  lock.unlock();
+...
+}
+
+Lock has more features, such as
+1). Interruptable locking;
+When one thread acquires lock, and other thread can send a signal to it asking for release the lock
+2). TimeOut locking by tryLock();
+When one thread acquires one lock and try to acquire a 2nd lock, after some time, if it still cannot aquire,
+it will release the first lock to avoid deadlock and re-request for two locks;
+3). accorss method locking as shown in e.g. above.
+
+=======================================
+   
 A race condition occurs when two or more threads can access shared data and they try to change it at the same time. 
 Because the thread scheduling algorithm can swap between threads at any time, you don't know the order in which the threads will attempt to access the shared data. Therefore, the result of the change in data is dependent on the thread scheduling algorithm, i.e. both threads are "racing" to access/change the data.
 
