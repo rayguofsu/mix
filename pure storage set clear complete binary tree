@@ -34,7 +34,7 @@ A: yes
 class Solution {
 
   public static void main(String[] args) {
-    int[][] arr = new int[][]{{1}, {0, 1}, {1, 0, 1, 1}, {1, 1, 0, 1, 1, 1, 1, 1}};
+    int[][] arr = new int[][]{{0}, {0, 1}, {1, 0, 1, 1}, {1, 1, 0, 1, 1, 1, 1, 1}};
     for (int[] a: arr){
       System.out.println(Arrays.toString(a));
     }
@@ -60,7 +60,7 @@ class Solution {
       arr[lastRow][i] = 0;
       int upperRow = lastRow - 1;
       int j = i;
-      while(upperRow >= 0){
+      while(upperRow >= 0 && arr[upperRow][j / 2] == 1){
         j /= 2;
         arr[upperRow][j] = 0;
         upperRow--;
@@ -76,7 +76,7 @@ class Solution {
       arr[lastRow][i] = 1;
       int cur = lastRow;
       int j = i;
-      while(cur > 0){
+      while(cur > 0 ){
         //odd
         if (j % 2 == 1 && arr[cur][j - 1] == 1){
           arr[cur - 1][j / 2] = 1;
