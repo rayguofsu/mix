@@ -20,7 +20,11 @@ When one thread acquires one lock and try to acquire a 2nd lock, after some time
 it will release the first lock to avoid deadlock and re-request for two locks;
 3). accorss method locking as shown in e.g. above.
 =====================================================
+How to make Runnable interface run two different methods;
 
+Can use two different classes to implement two runnable interface to override run method differently;
+See example below using One class make Runnable interface to call register and the other call fire.
+http://stackoverflow.com/questions/3662065/can-two-threads-run-two-different-methods-at-the-same-point-of-time
 
 
 Q: Multi thread question: Event class has two methods, void register(Callback cb);
@@ -34,62 +38,158 @@ Event e = new Event();
  e.fire(); // cb1.in cb2.invoke();
  … 
  e.register(cb3); // cb3.invoke() right away since event has been fired. 
-
 Implement the two methods in both single-thread and multi-thread scenario with mutex;
-Can use two different classes to implement two runnable interface to override run method differently;
-One class make run to call register and the other call fire.
 
-http://stackoverflow.com/questions/3662065/can-two-threads-run-two-different-methods-at-the-same-point-of-time
- Single thread: 
- boolean isFired = false;
- Queue<Callback> q = new Queue<>();
- void register(Callback cb) { 
- if (!isFired) { 
-    q.enqueue(cb);
- } else { 
-    cb.invoke();
- } 
- } 
+ ==================Single thread: =====================
+ class Solution {
+  public static class Callback{
+      private int ID;
+      public Callback(int num){
+         this.ID = num;
+      }
+      private void invoke(){
+         System.out.println("call made by " + ID);
+      }
+  }
+  public static class Event{
+      private boolean isFired;
+      //private final Lock lock;
+      private Queue<Callback> que = new LinkedList<>();
+      public Event(){
+          isFired = false;
+          //lock = new ReentrantLock();
+      }
+      public void register(Callback cb){
+          if (isFired == false){
+             que.offer(cb);
+             System.out.println("que in " + cb.ID);
+          }
+          else{
+             cb.invoke();
+          }
+      }
+      public void fire(){
+          while(!que.isEmpty()){
+              Callback cb = que.poll();
+              cb.invoke();
+          }
+          isFired = true;
+      }
+  }
+
+  public static void main(String[] args) {
+    Callback cb1 = new Callback(1);
+    Callback cb2 = new Callback(2);
+    Callback cb3 = new Callback(3);
+    Event e = new Event();
+    e.register(cb1);
+    e.register(cb2);
+    e.fire();
+    e.register(cb3);
+  }
+}
+============================multiple thread ===========================
 
 
- void fire() { 
-   while(!q.isEmpty()) { 
-      Callback cb = q.dequeue();
-      cb.invoke();
-   } 
-   isFired = true;
- } 
 
 
-// if this is used in multi-thread condition, there are a couple of problems: 1) if say register finished if check(isFired = false) and then fire is run and finished(isFired = true), then cb in register is left in the queue without anyone running. Our next iteration can be: 
+
+
+
+
+// if single method is used in multi-thread condition, 
+there are a couple of problems: 1) if say register finished if check(isFired = false) and 
+then fire is run and finished(isFired = true), then cb in register is left in the queue without anyone running. 
+Our next iteration can be: 
 (below is c++; java does not have mutex; only semaphore and lock interface; can use ReentrantLock
+class Solution {//in java two sync methods within the same class cannot execute parallely by two threads
+  public static class Callback{
+//the same can be achieved if we do not use synchornized, 
+//but use only lock.lock and unlock after method start and before method ends
+      private int ID;
+      public Callback(int num){
+         this.ID = num;
+      }
+      private void invoke(){
+         System.out.println("call made by " + ID);
+      }
+  }
+  public static class Event{
+      private boolean isFired;
+      private final Lock lock;
+      private Queue<Callback> que = new LinkedList<>();
+      public Event(){
+          isFired = false;
+          lock = new ReentrantLock();
+      }
+      public synchronized void register(Callback cb){
+          if (isFired == false){
+             que.offer(cb);
+             System.out.println("que in " + cb.ID);
+          }
+          else{
+             cb.invoke();
+          }
+      }
+      public synchronized void fire(){
+          while(!que.isEmpty()){
+              Callback cb = que.poll();
+              cb.invoke();
+          }
+          System.out.println("fired");
+          isFired = true;
+      }
+  }
+  public static class EventRegister implements Runnable{
+     private Event e = null;
+     private Callback cb = null;
+     public EventRegister(Event e, Callback cb){
+        this.e = e;
+        this.cb = cb;
+     }
+     @Override
+     public void run(){
+        e.register(cb);
+        try{
+           Thread.sleep(100000);// need to use try and catch for Thread.sleep(100)
+        } catch (InterruptedException e){
+           e.printStackTrace();
+        }
+     }
+  }
+  public static class EventFire implements Runnable{
+     public Event e = null;
+     public EventFire(Event e){
+        this.e = e;
+     }
+     @Override
+     public void run(){
+        e.fire();
+     }
+  }
+  
+  public static void main(String[] args) throws InterruptedException{//throws .. needed if we do t1.join()
+    Event e = new Event();
+    EventRegister er1 = new EventRegister(e, new Callback(1));
+    EventRegister er2 = new EventRegister(e, new Callback(2));
+    EventRegister er3 = new EventRegister(e, new Callback(3));
+    EventFire ef = new EventFire(e);
+    
+    Thread t1 = new Thread(er1, "t1");
+    Thread t2 = new Thread(er2, "t2");
+    Thread t3 = new Thread(er3, "t3");
+    Thread t5 = new Thread(ef, "t5");
+    t1.start();
+    t2.start();
+    t5.start();
+    t3.start();
+  }
+}
 
-boolean isFired = false;
-Queue<Callback> q = new Queue<CallBack>();
-Mutex m = new Mutex();
-void register(Callback cb) {
- m.acquire();
- if (!isFired) { 
-   q.enqueue(cb);
- } else { 
-   cb.invoke();
- } 
- m.release();
- } 
-
-void fire() { 
- m.acquire();
- while(!q.isEmpty()) { 
-   Callback cb = q.dequeue();
-   cb.invoke();
- } 
-
- isFired = true;
- m.release();
- } 
-
-
-// This is good. it will protect the atomicity. But it is slow because invoke could take a long time. But, if we change register to below it won’t work because fire() can be called after if (isFired) check and before m.acquire(); cb is left in the queue again. 
+// This is good. it will protect the atomicity. 
+But it is slow because invoke could take a long time. 
+But, if we change register to below it won’t work because fire() can be called after if (!isFired) check and 
+before m.acquire(); cb is left in the queue again. 
 
 Mutex m = new Mutex();
 void register(Callback cb) { 
@@ -102,7 +202,22 @@ void register(Callback cb) {
  } 
 } 
 
-// Next iteration on register. The reason we put m.release() before cb.invoke() is because invoke() we have no control and it could call this.register again and because Mutex is not reentrant we are going to have a deadlock and b) invoke can take a long time which make everything slower. 
+// Next iteration on register. The reason we put m.release() before cb.invoke() is 
+//because invoke() we have no control and it could call this.register again and because Mutex is not reentrant we are going to have a deadlock 
+//and invoke can take a long time which make everything slower. 
+      public void register(Callback cb){
+          lock.lock();
+          if (isFired == false){
+             que.offer(cb);
+             System.out.println("que in " + cb.ID);
+             lock.unlock();
+          }
+          else{
+             lock.unlock();
+             cb.invoke();
+          }
+      }
+
 void register(Callback cb) { 
 m.acquire();
  if (!isFired) { 
@@ -117,7 +232,21 @@ m.acquire();
 
 // Now this looks good. We move on to fire(). Same as register, non-reentrant mutex can cause problem again with invoke(). 
 // So we should move invoke() outside. 
-void fire() { m.acquire();
+      public void fire(){
+          lock.lock();//put it here,not put it after while loop is because if after while, then other may run register and get cb stuck in q.
+          while(!que.isEmpty()){
+              Callback cb = que.poll();
+              lock.unlock();
+              cb.invoke();
+              lock.lock();  //it has to have it here, if put it after exiting the while loop, 
+                           //then after while loop before lock.lock, others may call register to get cb stuck in q again;
+          }
+          System.out.println("fired");
+          isFired = true;
+          lock.unlock();
+      }
+void fire() { 
+ m.acquire();
  while(!q.isEmpty()) { 
  Callback cb = q.dequeue();
  m.release();
