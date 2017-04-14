@@ -1,4 +1,149 @@
+计一个Map<Integer, Integer>，满足下面的时间复杂度。
+add: O(1)  deletion: O(1)  lookup: O(1)  clear:O(1)  iterate: O(number of
+elements)。
+提示：
+如果我们用randomly accessed array，复杂度如下：
+add: O(1)  deletion: O(1)  lookup: O(1)  clear: O(size of array)   iterate:
+O(size of array)
+如果我么用sequential array, 复杂度如下：
+add: O(1)  deletion: O(number of elements)  lookup:O(number of elements)  
+clear: O(1) iterate:O(number of elements)
+所以我们需要把这两个方法整合起来。
+
+import java.io.*;
+import java.util.*;
+
+/*
+ * To execute Java, please define "static void main" on a class
+ * named Solution.
+ *
+ * If you need more classes, simply define them inline.
+ */
+
+class Solution {
+  public static class Element{
+    int key, val, phaseNo;
+    Element next, prev;
+    public Element(int key, int val, int phaseNo){
+      this.key = key;
+      this.val = val;
+      this.phaseNo = phaseNo;
+    }
+  }
   
+  public static class MapO1{
+    private Element[] bucket;
+    private int cur_phase_no = 0;
+    private int capacity;
+    private Element head, tail;
+    public MapO1(int capacity) {
+       this.capacity = capacity;
+       this.bucket = new Element[capacity];
+       this.head = new Element(0, 0, -1);
+       this.tail = new Element(0, 0, -1);
+       this.head.next = this.tail;
+       this.tail.prev = this.head;
+       
+    }
+    
+    public void add(int key, int val) {
+        int index = getIndex(key);
+        Element e = bucket[index];
+        if (e == null || e.phaseNo != cur_phase_no){
+           bucket[index] = new Element(key, val, cur_phase_no);
+           bucket[index].prev = tail.prev;
+           tail.prev.next = bucket[index];
+           bucket[index].next = tail;
+           tail.prev = bucket[index];
+           
+        }
+        else{
+           bucket[index].val = val;
+        }
+    }
+        
+    public boolean lookup(int key){
+       int index = getIndex(key);
+       Element e = bucket[index];
+       if (e == null || e.phaseNo < cur_phase_no){
+          return false;
+       }
+       return true;
+    }
+    
+    public void delete(int key) {
+        int removedIndex = getIndex(key);
+        if (bucket[removedIndex] == null || bucket[removedIndex].phaseNo != cur_phase_no) return;
+        bucket[removedIndex].phaseNo = -1;
+        bucket[removedIndex].prev.next = bucket[removedIndex].next;
+        bucket[removedIndex].next.prev = bucket[removedIndex].prev;
+    }    
+    
+    public void clear(){
+       cur_phase_no ^= 1;
+       this.head.next = this.tail;
+       this.tail.prev = this.head;
+    }
+    
+    public Iterator<Element> getIterator(){
+       Iterator<Element> it = new Iterator<Element>(){
+          Element travel = head.next;
+          @Override
+          public boolean hasNext(){
+            //System.out.println("here is " + travel.key + " phase " + travel.phaseNo);
+            return travel.phaseNo != -1;
+          }
+      
+          @Override
+          public Element next(){
+            Element next = travel;
+            travel = travel.next;
+            return next;
+          }
+      };
+      return it;
+    }
+    
+    public int getIndex(int key){
+      
+      return Math.abs(((Integer) key).hashCode()) % capacity;
+    
+    }
+  }
+  
+  
+  public static void main(String[] args) {
+    MapO1 map = new MapO1(100000);
+    map.add(1, 111);
+    map.add(2, 222);
+    map.add(3, 333);
+    System.out.println(map.lookup(2));
+    Iterator<Element> it = map.getIterator();
+    while (it.hasNext()) {
+      System.out.println(it.next().val);
+    }
+    System.out.println(map.lookup(2));
+    System.out.println(map.lookup(5));
+    map.delete(2);
+    System.out.println(map.lookup(2));
+    map.clear();
+    System.out.println(map.lookup(1));
+    while (it.hasNext()) {
+      System.out.println(it.next().val);
+    }
+  }
+  
+}
+
+
+/* 
+Your previous Plain Text content is preserved below:
+
+
+ */
+
+
+
 
 Count the number of possible palindrome substrings in a string. A palindrome is a word that reads the same way spelled backwards.
 Example:
@@ -260,7 +405,111 @@ class Solution {
       }
   }
  }
+ 
+ ============
 
-}
+Q: Multi thread question: Event class has two methods, void register(Callback cb);
+ void fire();
+ it should run like this: 
+
+Event e = new Event();
+ e.register(cb1); // Not invoke until event is fired. 
+ e.register(cb2); // Same 
+ … 
+ e.fire(); // cb1.in cb2.invoke();
+ … 
+ e.register(cb3); // cb3.invoke() right away since event has been fired. 
+
+Implement the two methods in both single-thread and multi-thread scenario with mutex;
+
+ Single thread: 
+ boolean isFired = false;
+ Queue<Callback> q = new Queue<>();
+ void register(Callback cb) { 
+ if (!isFired) { 
+    q.enqueue(cb);
+ } else { 
+    cb.invoke();
+ } 
+ } 
+
+
+ void fire() { 
+   while(!q.isEmpty()) { 
+      Callback cb = q.dequeue();
+      cb.invoke();
+   } 
+   isFired = true;
+ } 
+
+
+// if this is used in multi-thread condition, there are a couple of problems: 1) if say register finished if check(isFired = false) and then fire is run and finished(isFired = true), then cb in register is left in the queue without anyone running. Our next iteration can be: 
+(below is c++; java does not have mutex; only semaphore and lock interface; can use ReentrantLock
+
+boolean isFired = false;
+Queue<Callback> q = new Queue<CallBack>();
+Mutex m = new Mutex();
+void register(Callback cb) {
+ m.acquire();
+ if (!isFired) { 
+   q.enqueue(cb);
+ } else { 
+   cb.invoke();
+ } 
+ m.release();
+ } 
+
+void fire() { 
+ m.acquire();
+ while(!q.isEmpty()) { 
+   Callback cb = q.dequeue();
+   cb.invoke();
+ } 
+
+ isFired = true;
+ m.release();
+ } 
+
+
+// This is good. it will protect the atomicity. But it is slow because invoke could take a long time. But, if we change register to below it won’t work because fire() can be called after if (isFired) check and before m.acquire(); cb is left in the queue again. 
+
+Mutex m = new Mutex();
+void register(Callback cb) { 
+ if (!isFired) { 
+ m.acquire();
+ q.enqueue(cb);
+ m.release();
+ } else { 
+   cb.invoke();
+ } 
+} 
+
+// Next iteration on register. The reason we put m.release() before cb.invoke() is because invoke() we have no control and it could call this.register again and because Mutex is not reentrant we are going to have a deadlock and b) invoke can take a long time which make everything slower. 
+void register(Callback cb) { 
+m.acquire();
+ if (!isFired) { 
+ q.enqueue(cb);
+ m.release();
+ } else { 
+ m.release();
+ cb.invoke();
+ } 
+} 
+
+
+// Now this looks good. We move on to fire(). Same as register, non-reentrant mutex can cause problem again with invoke(). 
+// So we should move invoke() outside. 
+void fire() { m.acquire();
+ while(!q.isEmpty()) { 
+ Callback cb = q.dequeue();
+ m.release();
+ cb.invoke();
+ m.acquire();
+ } 
+ isFired = true;
+ m.release();
+ } 
+// Summary: exclude invoke() since we have no control;
+ keep boolean isFired consistent with q status(q.isEmpty()), which is achieved by the last acquire and release.
 
 
