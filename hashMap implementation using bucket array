@@ -1,0 +1,187 @@
+The amortized time for get, add, lookup, clear, delete is O(1). and iterate is O(n).
+class Entry<K, V> {
+	K key;
+	V value;
+	Entry<K, V> next;
+
+	Entry(K key, V value) {
+		this.key = key;
+		this.value = value;
+		next = null;
+	}
+
+	@Override
+	public String toString() {
+		return key.toString() + ":" + value.toString();
+	}
+}
+
+public class HashMap<K, V> {
+	private Entry<K, V> bucket[];
+	private int capacity, size;
+	private double loadThreshold;
+
+	@SuppressWarnings("unchecked")
+	public HashMap(int capacity, double loadTreshold) {
+		this.capacity = capacity;
+		this.loadThreshold = loadTreshold;
+		this.size = 0;
+		this.bucket = new Entry[capacity];
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public HashMap() {
+		this.capacity = 1;
+		this.loadThreshold = 0.75;
+		this.size = 0;
+		this.bucket = new Entry[capacity];
+	}
+
+public void add(K key, V value) {
+		int index = getHashedIndex(key);
+		if (bucket[index] == null) {
+			bucket[index] = new Entry<K, V>(key, value);
+			size++;
+		} else {
+			Entry<K, V> head = bucket[index];
+			Entry<K, V> curr = head;
+			while (curr != null && !curr.key.equals(key))
+				curr = curr.next;
+
+			if (curr == null) {
+				bucket[index] = new Entry<K, V>(key, value);
+				bucket[index].next = head;
+				size++;
+			} else
+				curr.value = value;
+		}
+
+		double currLoad = (double) size / capacity;
+		if (currLoad > loadThreshold)
+			reHash();
+	}
+
+	public boolean lookup(K key) {
+		int index = getHashedIndex(key);
+
+		if (bucket[index] == null)
+			return false;
+
+		Entry<K, V> head = bucket[index];
+		while (head != null && !head.key.equals(key))
+			head = head.next;
+
+		if (head == null)
+			return false;
+		return true;
+	}
+
+	public V get(K key) {
+		if (!lookup(key))
+			return null;
+		int index = getHashedIndex(key);
+		Entry<K, V> head = bucket[index];
+		while (head != null && !head.key.equals(key))
+			head = head.next;
+		return head.value;
+	}
+
+	public boolean delete(K key) {
+		if (!lookup(key))
+			return false;
+		int index = getHashedIndex(key);
+		Entry<K, V> head = bucket[index];
+		if (head.key.equals(key)) {
+			bucket[index] = head.next;
+		} else {
+			Entry<K, V> prev = head;
+			head = head.next;
+			while (head.next != null && !head.key.equals(key)) {
+				prev = head;
+				head = head.next;
+			}
+			prev.next = head.next;
+		}
+		size--;
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void clear() {
+		bucket = new Entry[capacity];
+		this.size = 0;
+	}
+
+	public int size() {
+		return size;
+	}
+
+	public Iterator<Entry<K, V>> getIterator() {
+		Iterator<Entry<K, V>> it = new Iterator<Entry<K, V>>() {
+			int count = 0;
+			int index = 0;
+			Entry<K, V> curr = bucket[index];
+
+			@Override
+			public boolean hasNext() {
+				return count < size;
+			}
+
+			@Override
+			public Entry<K, V> next() {
+				if (count >= size)
+					return null;
+
+				while (index < capacity && curr == null) {
+					index++;
+					curr = bucket[index];
+				}
+				Entry<K, V> temp = curr;
+				count++;
+				curr = curr.next;
+				return temp;
+			}
+		};
+		return it;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void reHash() {
+		capacity = capacity * 2;
+		Entry<K, V> temp[] = bucket;
+		bucket = new Entry[capacity];
+		size = 0;
+		for (Entry<K, V> e : temp) {
+			while (e != null){
+				add(e.key, e.value);
+        e = e.next;
+      }
+		}
+	}
+
+	private int getHashedIndex(K key) {
+		return Math.abs(key.hashCode()) % capacity;
+	}
+
+	public static void main(String[] args) {
+		HashMap<Integer, String> map = new HashMap<>();
+		map.add(1, "Hello");
+		map.add(2, "pure");
+		map.add(3, "storage");
+		System.out.println(map.lookup(2));
+		Iterator<Entry<Integer, String>> it = map.getIterator();
+		while (it.hasNext()) {
+			System.out.println(it.next());
+		}
+		System.out.println(map.lookup(2));
+		System.out.println(map.lookup(5));
+		System.out.println(map.delete(2));
+		System.out.println(map.lookup(2));
+		map.clear();
+		System.out.println(map.lookup(1));
+
+	}
+}
+
+9 months ago
