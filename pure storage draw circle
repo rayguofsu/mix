@@ -1,0 +1,123 @@
+draw a cricle:
+  public static class Point{
+    int x, y;
+    Point(int x, int y){
+       this.x = x;
+       this.y = y;
+    }
+    @Override
+    public boolean equals(Object o){
+       if (o instanceof Point){
+          Point p = (Point) o;
+          return p.x == x && p.y == y;
+       }
+       return false;
+    }
+    @Override
+    public int hashCode(){
+       int res = 17;
+       res = 31 * res + x;
+       res = 31 * res + y;
+       return res;
+    }
+  }
+  public static void main(String[] args) {
+    int r = 100;
+    int x = r;
+    int y = 0;
+    Set<Point> points = new HashSet<>();
+    while(x >= (int) (r * 0.717) && y <= (int) (r * 0.717)){
+      int dis = x * x + y * y;
+      if (dis == r * r){
+         points.add(new Point(x, y));
+         x--;
+         y++;
+      }
+      else if (dis < r * r){
+         y++;
+      }
+      else{
+         x--;
+      }
+    }
+    Set<Point> res = new HashSet<>();
+    //can use hashset to avoid duplicates here; like 0 = p[0]; -p[0] gives the same 0
+    for (Point p : points){
+        res.add(p);
+        res.add(new Point(-p.x, p.y));
+        res.add(new Point(p.x, -p.y));
+        res.add(new Point(-p.x, -p.y));
+
+        res.add(new Point(p.y, p.x));
+        res.add(new Point(-p.y, p.x));
+        res.add(new Point(p.y, -p.x));
+        res.add(new Point(-p.y, -p.x));
+
+    }
+    for (Point a: res){   
+      System.out.println(a.x + " " + a.y);
+    }
+  }
+  =====================================================================================
+  Draw a circle:
+  Using BS:
+    public static class Point{
+    int x, y;
+    Point(int x, int y){
+       this.x = x;
+       this.y = y;
+    }
+    @Override
+    public boolean equals(Object o){
+       if (o instanceof Point){
+          Point p = (Point) o;
+          return p.x == x && p.y == y;
+       }
+       return false;
+    }
+    @Override
+    public int hashCode(){
+       int res = 17;
+       res = 31 * res + x;
+       res = 31 * res + y;
+       return res;
+    }
+  }
+  public static void main(String[] args) {
+    int r = 100;
+    int x = r;
+    int y = 0;
+    Set<Point> points = new HashSet<>();
+    while(x >= (int) (r * 0.717)){
+      y = binarySearch(r, x, 0);
+      if (y >= 0){
+         points.add(new Point(x, y));
+         points.add(new Point(-x, y));
+         points.add(new Point(x, -y));
+         points.add(new Point(-x, -y));
+         points.add(new Point(y, x));
+         points.add(new Point(-y, x));
+         points.add(new Point(y, -x));
+         points.add(new Point(-y, -x));
+      }
+      x--;
+    }
+    for (Point a: points){   
+      System.out.println(a.x + " " + a.y);
+    }
+  }
+  private static int binarySearch(int r, int hi, int lo){
+     int x = hi;
+     int res = -1;
+     while(lo <= hi){
+        int mid = lo + (hi - lo) / 2;
+        int dist = x * x + mid * mid;
+        if (dist < r * r) lo = mid + 1;
+        else if (dist > r * r) hi = mid - 1;
+        else{
+          res = mid;break;
+        }
+     
+     }
+     return res;
+}
