@@ -19,6 +19,9 @@ When one thread acquires lock, and other thread can send a signal to it asking f
 When one thread acquires one lock and try to acquire a 2nd lock, after some time, if it still cannot aquire,
 it will release the first lock to avoid deadlock and re-request for two locks;
 3). accorss method locking as shown in e.g. above.
+=====================================================
+
+
 
 Q: Multi thread question: Event class has two methods, void register(Callback cb);
  void fire();
@@ -33,7 +36,10 @@ Event e = new Event();
  e.register(cb3); // cb3.invoke() right away since event has been fired. 
 
 Implement the two methods in both single-thread and multi-thread scenario with mutex;
+Can use two different classes to implement two runnable interface to override run method differently;
+One class make run to call register and the other call fire.
 
+http://stackoverflow.com/questions/3662065/can-two-threads-run-two-different-methods-at-the-same-point-of-time
  Single thread: 
  boolean isFired = false;
  Queue<Callback> q = new Queue<>();
@@ -106,7 +112,7 @@ m.acquire();
  m.release();
  cb.invoke();
  } 
-} 
+}   
 
 
 // Now this looks good. We move on to fire(). Same as register, non-reentrant mutex can cause problem again with invoke(). 
