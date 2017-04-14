@@ -1,0 +1,103 @@
+Q: Multi thread question: Event class has two methods, void register(Callback cb);
+ void fire();
+ it should run like this: 
+
+Event e = new Event();
+ e.register(cb1); // Not invoke until event is fired. 
+ e.register(cb2); // Same 
+ … 
+ e.fire(); // cb1.in cb2.invoke();
+ … 
+ e.register(cb3); // cb3.invoke() right away since event has been fired. 
+
+Implement the two methods in both single-thread and multi-thread scenario with mutex;
+
+ Single thread: 
+ boolean isFired = false;
+ Queue<Callback> q = new Queue<>();
+ void register(Callback cb) { 
+ if (!isFired) { 
+    q.enqueue(cb);
+ } else { 
+    cb.invoke();
+ } 
+ } 
+
+
+ void fire() { 
+   while(!q.isEmpty()) { 
+      Callback cb = q.dequeue();
+      cb.invoke();
+   } 
+   isFired = true;
+ } 
+
+
+// if this is used in multi-thread condition, there are a couple of problems: 1) if say register finished if check(isFired = false) and then fire is run and finished(isFired = true), then cb in register is left in the queue without anyone running. Our next iteration can be: 
+(below is c++; java does not have mutex; only semaphore and lock interface; can use ReentrantLock
+
+boolean isFired = false;
+Queue<Callback> q = new Queue<CallBack>();
+Mutex m = new Mutex();
+void register(Callback cb) {
+ m.acquire();
+ if (!isFired) { 
+   q.enqueue(cb);
+ } else { 
+   cb.invoke();
+ } 
+ m.release();
+ } 
+
+void fire() { 
+ m.acquire();
+ while(!q.isEmpty()) { 
+   Callback cb = q.dequeue();
+   cb.invoke();
+ } 
+
+ isFired = true;
+ m.release();
+ } 
+
+
+// This is good. it will protect the atomicity. But it is slow because invoke could take a long time. But, if we change register to below it won’t work because fire() can be called after if (isFired) check and before m.acquire(); cb is left in the queue again. 
+
+Mutex m = new Mutex();
+void register(Callback cb) { 
+ if (!isFired) { 
+ m.acquire();
+ q.enqueue(cb);
+ m.release();
+ } else { 
+   cb.invoke();
+ } 
+} 
+
+// Next iteration on register. The reason we put m.release() before cb.invoke() is because invoke() we have no control and it could call this.register again and because Mutex is not reentrant we are going to have a deadlock and b) invoke can take a long time which make everything slower. 
+void register(Callback cb) { 
+m.acquire();
+ if (!isFired) { 
+ q.enqueue(cb);
+ m.release();
+ } else { 
+ m.release();
+ cb.invoke();
+ } 
+} 
+
+
+// Now this looks good. We move on to fire(). Same as register, non-reentrant mutex can cause problem again with invoke(). 
+// So we should move invoke() outside. 
+void fire() { m.acquire();
+ while(!q.isEmpty()) { 
+ Callback cb = q.dequeue();
+ m.release();
+ cb.invoke();
+ m.acquire();
+ } 
+ isFired = true;
+ m.release();
+ } 
+// Summary: exclude invoke() since we have no control;
+ keep boolean isFired consistent with q status(q.isEmpty()), which is achieved by the last acquire and release.
