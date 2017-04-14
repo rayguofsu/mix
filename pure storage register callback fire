@@ -1,3 +1,25 @@
+Difference between lock and synchronized:
+A ReentrantLock is unstructed, can hold a lock across methods, e.g.
+private ReentrantLock lock;
+public void foo(){
+  ...
+  lock.lock();
+  ...
+}
+public void bar(){
+...
+  lock.unlock();
+...
+}
+
+Lock has more features, such as
+1). Interruptable locking;
+When one thread acquires lock, and other thread can send a signal to it asking for release the lock
+2). TimeOut locking by tryLock();
+When one thread acquires one lock and try to acquire a 2nd lock, after some time, if it still cannot aquire,
+it will release the first lock to avoid deadlock and re-request for two locks;
+3). accorss method locking as shown in e.g. above.
+
 Q: Multi thread question: Event class has two methods, void register(Callback cb);
  void fire();
  it should run like this: 
