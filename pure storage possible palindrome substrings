@@ -1,0 +1,37 @@
+Count the number of possible palindrome substrings in a string. A palindrome is a word that reads the same way spelled backwards.
+Example:
+input: lasagna.
+Possible palindromes are asa, l,a,s,a,g,n,a.
+output: count is 8.
+
+input:hellolle
+ellolle,lloll,lol,ll,ll,h,e,l,l,o,l,l,e.
+output:13.
+
+  public static void main(String[] args) {
+    String s = "hellolle";
+    System.out.println(countPalindrom(s));
+    
+  }
+  public static int countPalindrom(String s){
+    if (s == null || s.length() == 0) return 0;
+    int res = 0;
+    for (int i = 0; i < s.length(); i++){
+      int index = helper(s, i - 1, i + 1);
+      res += index - i + 1;//remember
+      if (i + 1 < s.length() && s.charAt(i) == s.charAt(i + 1)){
+        index = helper(s, i - 1, i + 2);
+        res += index - i; //remember
+      }
+    }
+    return res;
+  }
+  private static int helper(String s, int lo, int hi){
+    while(lo >= 0 && hi < s.length()){
+      if (s.charAt(lo) == s.charAt(hi)){
+        lo--; hi++;
+      }
+      else break;
+    }
+    return hi - 1;
+}
