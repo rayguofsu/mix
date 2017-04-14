@@ -1,0 +1,96 @@
+   第一轮：定义buddy system为一棵complete binary tree。一个node可能为0也可能为1
+
+. 它的
+
+value为1，当且仅当它所有的child的value均为1.
+
+1
+
+|             
+
+1          2
+
+|          |     
+
+1 2    3 4
+
+| |   | |
+
+1 2  3 4 5 6  7 8
+
+实现下列的method。
+
+1' clearBit(int offset, int len);
+
+2' setBit(int offset, int len);
+
+Q: offset 和 len都是指最下面一层的，对吗？
+
+A: yes
+
+Q: 用二维数组bits[level][number]存储是他们给出的吗？
+
+A: yes
+class Solution {
+
+  public static void main(String[] args) {
+    int[][] arr = new int[][]{{1}, {0, 1}, {1, 0, 1, 1}, {1, 1, 0, 1, 1, 1, 1, 1}};
+    for (int[] a: arr){
+      System.out.println(Arrays.toString(a));
+    }
+    int offset = 1;
+    int len = 4;
+    clearBit(arr, offset, len);
+    System.out.println();
+    for (int[] a: arr){
+      System.out.println(Arrays.toString(a));
+    }
+    System.out.println();
+    setBit(arr, 3, 2);
+    for (int[] a: arr){
+      System.out.println(Arrays.toString(a));
+    }
+  }
+  
+  private static void clearBit(int[][] arr, int offset, int len){
+    int lastRow = arr.length - 1;
+    int end = Math.min(offset + len - 1, arr[lastRow].length - 1);
+    for (int i = offset; i <= end; i++){
+      if (arr[lastRow][i] == 0) continue;
+      arr[lastRow][i] = 0;
+      int upperRow = lastRow - 1;
+      int j = i;
+      while(upperRow >= 0){
+        j /= 2;
+        arr[upperRow][j] = 0;
+        upperRow--;
+      }
+    }
+  }
+  
+  private static void setBit(int[][] arr, int offset, int len){
+    int lastRow = arr.length - 1;
+    int end = Math.min(offset + len - 1, arr[lastRow].length - 1);
+    for (int i = offset; i <= end; i++){
+      if (arr[lastRow][i] == 1) continue;
+      arr[lastRow][i] = 1;
+      int cur = lastRow;
+      int j = i;
+      while(cur > 0){
+        //odd
+        if (j % 2 == 1 && arr[cur][j - 1] == 1){
+          arr[cur - 1][j / 2] = 1;
+        }
+        //even
+        else if (j % 2 == 0 && arr[cur][j + 1] == 1){
+          arr[cur - 1][j / 2] = 1;
+        }
+        else{
+         // System.out.println("here");
+          break;
+        }
+        j /= 2;
+        cur--;
+      }
+  }
+ }
