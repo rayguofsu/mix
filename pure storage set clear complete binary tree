@@ -31,6 +31,52 @@ A: yes
 Q: 用二维数组bits[level][number]存储是他们给出的吗？
 
 A: yes
+==============from on line solution; 要求操作非常效率，主要考虑读取连续的内存进入memory，这样会使cache的命中率增加===========
+   public static void clearBit(int[][] matrix, int offset, int length) { 
+    int curLevel = matrix.length-1; 
+    int left = offset; 
+    int right = offset+length - 1; 
+    while (curLevel >= 0){ 
+      for (int i = left; i <= right; i++) { 
+        matrix[curLevel][i] = 0;
+      }
+      curLevel--; 
+      left = left/2; 
+      right = right/2; 
+    } 
+  }
+  
+  public static void setBit(int[][] bits, int offset, int length) {
+     int curLevel = bits.length-1; 
+     int left = offset;
+     int right = offset+length - 1; 
+     while (curLevel >= 0) { 
+        for (int i = left; i <= right; i++) {
+                      bits[curLevel][i] = 1;
+        }
+        if (curLevel == 0) return;
+        int leftBuddy = left + (left % 2 == 1 ? -1 : 1);
+        int rightBuddy = right + (right % 2 == 1 ? -1 : 1);
+           // System.out.println(curLevel + " " + left + " " + leftBuddy);
+        int leftBit = bits[curLevel][left] * bits[curLevel][leftBuddy];
+        int rightBit = bits[curLevel][right] * bits[curLevel][rightBuddy];
+        curLevel--; 
+        left /= 2; 
+        right /= 2; 
+        if (leftBit == 0) { 
+          left++; 
+        } 
+        if (rightBit == 0) { 
+          right--; 
+        } 
+      //} 
+   }
+  }
+}
+
+
+
+===================================================================================================
 class Solution {
 
   public static void main(String[] args) {
