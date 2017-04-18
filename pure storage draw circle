@@ -26,7 +26,7 @@ draw a cricle:
     int x = r;
     int y = 0;
     Set<Point> points = new HashSet<>();
-    while(x >= (int) (r * 0.717) && y <= (int) (r * 0.717)){
+    while(x >= r * 0.717 && y <= r * 0.717){
       int dis = x * x + y * y;
       if (dis == r * r){
          points.add(new Point(x, y));
@@ -88,7 +88,7 @@ draw a cricle:
     int x = r;
     int y = 0;
     Set<Point> points = new HashSet<>();
-    while(x >= (int) (r * 0.717)){
+    while(x >= r * 0.717){
       y = binarySearch(r, x, 0);
       if (y >= 0){
          points.add(new Point(x, y));
