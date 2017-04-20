@@ -23,6 +23,43 @@ public class Solution {
 这道题的代码也参考了code ganker的。
 代码如下：
 */
+ public class Solution {
+    public String minWindow(String s, String t) {
+        String res = "";
+        if (s == null || t == null || s.length() == 0 || t.length() == 0) return res;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < t.length(); i++){
+            map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
+        }
+        int j = 0;
+        int min = Integer.MAX_VALUE;
+        int count = 0;
+        for (int i = 0; i < s.length(); i++){
+            char sChar = s.charAt(i);
+            if (map.containsKey(sChar)){
+                map.put(sChar, map.get(sChar) - 1);
+                if (map.get(sChar) >= 0) count++;
+                while(count == t.length()){
+                    if (min > i - j + 1){
+                        min = i - j + 1;
+                        res = s.substring(j, i + 1);
+                    }
+                    char tChar = s.charAt(j);
+                    if (map.containsKey(tChar)){
+                        map.put(tChar, map.get(tChar) + 1);
+                        if (map.get(tChar) > 0) count--;
+                    }
+                    j++;
+                }
+            }
+        }
+        return res;
+    }
+}
+ 
+ 
+ 
+ 
 public String minWindow(String s, String t) {
     String res = "";
     if(s == null || t == null || s.length()==0 || t.length()==0) return res;
