@@ -1,0 +1,9 @@
+ 楼主，麻烦请问下四个点正方形那个是什么思路？ 跪谢了 
+ Diagonals have the same length, mid points of diagonals should overlap adjacent sides have the same length
+
+链接: https://instant.1point3acres.com/thread/211635
+来源: 
+
+happy number ask to prove the unhappy will lead to repeaded cycle;
+代码写完了要做比较细致的数学分析 证明为什么这么写是对的，参考资料： https://en.wikipedia.org/wiki/Happy_number
+里面那段单调性的证明比较重要
