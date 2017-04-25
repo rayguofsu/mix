@@ -10,6 +10,9 @@ add: O(1)  deletion: O(number of elements)  lookup:O(number of elements)
 clear: O(1) iterate:O(number of elements)
 所以我们需要把这两个方法整合起来。
 
+
+
+
 import java.io.*;
 import java.util.*;
 
@@ -62,10 +65,10 @@ class Solution {
         }
     }
         
-    public boolean lookup(int key){
+    public boolean lookUp(int key){
        int index = getIndex(key);
        Element e = bucket[index];
-       if (e == null || e.phaseNo < cur_phase_no){
+       if (e == null || e.phaseNo != cur_phase_no){
           return false;
        }
        return true;
@@ -112,26 +115,35 @@ class Solution {
   }
   
   
+  public static void printPair(Iterator<Element> it){
+      while(it.hasNext()){
+          System.out.println("i am here");
+          Element p = it.next();
+          System.out.println(p.key + " " + p.val + " " + p.phaseNo);
+      }
+  
+  }
+
   public static void main(String[] args) {
-    MapO1 map = new MapO1(100000);
-    map.add(1, 111);
-    map.add(2, 222);
-    map.add(3, 333);
-    System.out.println(map.lookup(2));
-    Iterator<Element> it = map.getIterator();
-    while (it.hasNext()) {
-      System.out.println(it.next().val);
-    }
-    System.out.println(map.lookup(2));
-    System.out.println(map.lookup(5));
-    map.delete(2);
-    System.out.println(map.lookup(2));
-    map.clear();
-    System.out.println(map.lookup(1));
-    while (it.hasNext()) {
-      System.out.println(it.next().val);
-    }
+      //o1 map;
+      MapO1 map = new MapO1(5);
+      map.add(1, 2);
+      map.add(2, 3);
+      map.add(3, 5);
+      map.add(5, 9);
+      Iterator<Element> it = map.getIterator();
+      printPair(it);
+      System.out.println(map.lookUp(2));
+      map.delete(2);
+      System.out.println(map.lookUp(2));
+      printPair(map.getIterator());
+      map.clear();
+      System.out.print("clear");
+      map.add(3, 5);
+      map.add(5, 9);
+      printPair(map.getIterator());
   }
   
 }
+
 
