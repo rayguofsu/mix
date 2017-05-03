@@ -1,0 +1,144 @@
+Given a bitonic array and element x in the array, find the index of x in 2log(n) time;
+here 2log(n) means 2log(n) times array access;
+if using standard way of doing this, 1). first find peak ; then find it in the left and find it in the right, it will be log(N) + log(N/2) + log(N/2) will be 3log(N);
+
+But if we do it uisng below way can make it 2log(N).
+
+
+he algorithms presented in other answers (this and this) are unfortunately incorrect, they are not O(logN) !
+
+The recursive formula f(L) = f(L/2) + log(L/2) + c doesn't lead to f(L) = O(log(N)) but leads to f(L) = O((log(N))^2) !
+
+Indeed, assume k = log(L), then log(2^(k-1)) + log(2^(k-2)) + ... + log(2^1) = log(2)*(k-1 + k-2 + ... + 1) = O(k^2). Hence, log(L/2) + log(L/4) + ... + log(2) = O((log(L)^2)).
+
+The right way to solve the problem in time ~ 2log(N) is to proceed as follows (assuming the array is first in ascending order and then in descending order):
+
+    Take the middle of the array
+    Compare the middle element with one of its neighbor to see if the max is on the right or on the left
+    Compare the middle element with the desired value
+    If the middle element is smaller than the desired value AND the max is on the left side, then do bitonic search on the left subarray (we are sure that the value is not in the right subarray)
+    If the middle element is smaller than the desired value AND the max is on the right side, then do bitonic search on the right subarray
+    If the middle element is bigger than the desired value, then do descending binary search on the right subarray and ascending binary search on the left subarray.
+
+In the last case, it might be surprising to do a binary search on a subarray that may be bitonic but it actually works because we know that the elements that are not in the good order are all bigger than the desired value. For instance, doing an ascending binary search for the value 5 in the array [2, 4, 5, 6, 9, 8, 7] will work because 7 and 8 are bigger than the desired value 5.
+
+Here is a fully working implementation (in C++) of the bitonic search in time ~2logN:
+
+#include <iostream>
+
+using namespace std;
+
+const int N = 10;
+
+void descending_binary_search(int (&array) [N], int left, int right, int value)
+{
+  // cout << "descending_binary_search: " << left << " " << right << endl;
+
+  // empty interval
+  if (left == right) {
+    return;
+  }
+
+  // look at the middle of the interval
+  int mid = (right+left)/2;
+  if (array[mid] == value) {
+    cout << "value found" << endl;
+    return;
+  }
+
+  // interval is not splittable
+  if (left+1 == right) {
+    return;
+  }
+
+  if (value < array[mid]) {
+    descending_binary_search(array, mid+1, right, value);
+  }
+  else {
+    descending_binary_search(array, left, mid, value);
+  }
+}
+
+void ascending_binary_search(int (&array) [N], int left, int right, int value)
+{
+  // cout << "ascending_binary_search: " << left << " " << right << endl;
+
+  // empty interval
+  if (left == right) {
+    return;
+  }
+
+  // look at the middle of the interval
+  int mid = (right+left)/2;
+  if (array[mid] == value) {
+    cout << "value found" << endl;
+    return;
+  }
+
+  // interval is not splittable
+  if (left+1 == right) {
+    return;
+  }
+
+  if (value > array[mid]) {
+    ascending_binary_search(array, mid+1, right, value);
+  }
+  else {
+    ascending_binary_search(array, left, mid, value);
+  }
+}
+
+void bitonic_search(int (&array) [N], int left, int right, int value)
+{
+  // cout << "bitonic_search: " << left << " " << right << endl;
+
+  // empty interval
+  if (left == right) {
+    return;
+  }
+
+  int mid = (right+left)/2;
+  if (array[mid] == value) {
+    cout << "value found" << endl;
+    return;
+  }
+
+  // not splittable interval
+  if (left+1 == right) {
+    return;
+  }
+
+  if(array[mid] > array[mid-1]) {
+    if (value > array[mid]) {
+      return bitonic_search(array, mid+1, right, value);
+    }
+    else {
+      ascending_binary_search(array, left, mid, value);
+      descending_binary_search(array, mid+1, right, value);
+    }
+  }
+
+  else {
+    if (value > array[mid]) {
+      bitonic_search(array, left, mid, value);
+    }
+    else {
+      ascending_binary_search(array, left, mid, value);
+      descending_binary_search(array, mid+1, right, value);
+    }
+  }
+}
+
+int main()
+{
+  int array[N] = {2, 3, 5, 7, 9, 11, 13, 4, 1, 0};
+  int value = 4;
+
+  int left = 0;
+  int right = N;
+
+  // print "value found" is the desired value is in the bitonic array
+  bitonic_search(array, left, right, value);
+
+  return 0;
+}
