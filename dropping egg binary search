@@ -1,0 +1,26 @@
+Egg drop. Suppose that you have an n-story building (with floors 1 through n) and plenty of eggs. An egg breaks if it is dropped from floor T or higher and does not break otherwise. Your goal is to devise a strategy to determine the value of T given the following limitations on the number of eggs and tosses:
+
+    Version 0: 1 egg, ≤T tosses.
+    Version 1: ∼1lg⁡n eggs and ∼1lg⁡n tosses.
+    Version 2: ∼lg⁡T eggs and ∼2lg⁡T tosses.
+    Version 3: 2 eggs and ∼2 sqrt(n) tosses.
+    Version 4: 2 eggs and ≤c sqrt(T) tosses for some fixed constant c.
+    
+    version 2: try to drop egg on floor 1 then another egg on floor 2, then floor 4...say the Nth throw which is at floor 2^N >= T; 
+    so N = log(T) roundup; N-1th throw is at floor 2^(N-1), so now throw egg as binary search between floor 2^(N-1) and 2^N, 
+    so we need another log(2^(N-1)) throws = (N-1) which is again log(T); so totally, 2logT tosses;
+    
+    Version 3: 
+     drop eggs at floors sqrt(N), 2 * sqrt(N), 3 * sqrt(N), ..., sqrt(N) * sqrt(N). 
+     (For simplicity, we assume here that sqrt(N) is an integer.)
+     Let assume that the egg broke at level k * sqrt(N).
+     With the second egg you should then perform a linear search in the interval (k-1) * sqrt(N) to k * sqrt(N). 
+     In total you will be able to find the floor F in at most 2 * sqrt(N) trials. 
+     
+     Version 4: 
+     drop egg on floor 1; then floor 2, then floor 4; then 7, then 11, then 16...
+      floor(n)=corresponding floor in nth throw=1+(1+2+...+(n-1))=1/2*n^2-1/2*n+1
+      1.if floor(n)>=T, so n < sqrt(2T); so we need n throws first;
+      2.Now between nth throw and n-1th throw, there are n - 1 floors, so now do linear drooping; we need n - 1 worst drops;
+      so total 2sqrt(2T); and 2 eggs only.
+     
