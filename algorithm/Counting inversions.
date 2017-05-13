@@ -30,7 +30,7 @@
     public int countInversion(Comparable[] a) {
         Comparable[] aux = new Comparable[a.length];
         int count = 0;
-
+       //this is the iterative way to merge sort, as needed to update global count; otherwise need trick of count = new int[1];
         for (int sz = 1; sz < a.length; sz += sz) {
             for (int i = 0; i < a.length - sz; i += 2*sz) {
                 int lo = i;
