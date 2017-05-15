@@ -1,6 +1,7 @@
 public class Solution {
 
-
+(//can be used to extend to find Kth smallest of two sorted array; just use i = m / (m + n) * k and j = k - i as the dividing line for two array;
+idea is the same, igore 2 parts and keep the other 2 parts, 4 parts divided by the dividing line)
 /*Explanation
 
 The key point of this problem is to ignore half part of A and B each step recursively by comparing the median of remaining A and B:
@@ -12,6 +13,7 @@ else Keep [bRight + aLeft]
 As the following: time=O(log(m + n))*/
 
 public double findMedianSortedArrays(int[] A, int[] B) {
+
 	    int m = A.length, n = B.length;
 	    int l = (m + n + 1) / 2;
 	    int r = (m + n + 2) / 2;
