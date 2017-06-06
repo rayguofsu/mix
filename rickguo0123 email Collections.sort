@@ -1,0 +1,690 @@
+"a".compareTo("b") return - 1; java.util.Collections.sort(listOfCountryNames) will sort list of string alphabetically
+Guo Rick <rickguo2011@gmail.com>	2017年3月4日 上午7:56
+收件人：Guo Rick <rickguo2011@gmail.com>
+http://bgmeow.xyz/2017/01/24/amazon-interview-prepare/    amazon 9 questions.
+
+
+public class findMazepath {
+      private static boolean bfs(int[][] maze, int startx, int starty) {
+            // TODO Auto-generated method stub
+            if(maze == null)
+                  return false;
+            if(maze.length == 0 || maze[0].length == 0)
+                  return false;
+            LinkedList<Node>queue = new LinkedList<Node>();
+            int[][] Direction = {{-1,0}, {0, -1}, {1, 0}, {0, 1}}; //方向：左上右下     
+            Noden1 = new Node(0, 0, maze[0][0]);
+            queue.offer(n1);
+      
+            int M = maze.length;
+            int N = maze[0].length;
+            
+            while (!queue.isEmpty()) {
+                  Nodenode = queue.poll();
+                  if (node.val == 9) {
+                        return true;
+                  }
+                  for(int i = 0; i < 4; i++){
+                        int x = node.x + Direction[i][0];
+                        int y = node.y + Direction[i][1];
+                        //bfs
+                        if(x >= 0 && x < M && y >= 0 && y < N && maze[x][y] > 0){
+                              NodenewNode = new Node(x, y, maze[x][y]);
+                              queue.offer(newNode);
+                              maze[x][y] = -1;
+                        }
+                  }
+            }
+            return false;
+      }
+
+2017-03-04 7:39 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+    import java.io.*;
+    import java.util.*;
+
+    /*
+     * To execute Java, please define "static void main" on a class
+     * named Solution.
+     *
+     * If you need more classes, simply define them inline.
+     */
+
+    class Solution {
+      public static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int val){
+          this.val = val;
+        }
+      }
+     
+     
+      public static void insert(TreeNode root, int val){
+        if (root == null) return;
+        if (root.val > val){
+          if (root.left == null){
+            root.left = new TreeNode(val);
+          }
+          else{
+            insert(root.left, val);
+          }
+        }
+        else{
+          if (root.right == null){
+            root.right = new TreeNode(val);
+          }
+          else{
+            insert(root.right, val);
+          }
+        }
+      }
+     
+      public static TreeNode findLCA(TreeNode root, int p, int q){
+          if (root == null) return null;
+          int big = Math.max(p, q);
+          int small = Math.min(p, q);
+          if (big < root.val){
+              return findLCA(root.left, p, q);
+          }
+          else if (root.val <= big && root.val >= small){
+              return root;
+          }
+          else{
+              return findLCA(root.right, p, q);
+          }
+      }
+     
+      public static int findNode(TreeNode root, TreeNode p){
+          int cnt = 0;
+          while(root != null && root.val != p.val){
+            if (root.val > p.val){
+              root = root.left;
+            }
+            else{
+              root = root.right;
+            }
+            cnt++;
+          }
+          return root == null ? -1 : cnt;
+      }
+     
+      public static void main(String[] args) {
+        /*int[] vals = new int[]{15, 5, 2, 9, 1, 6, 12, 22, 16, 21, 29};
+        int p = 6;
+        int q = 21;*/
+        int[] vals = new int[]{1, 2, 3, 4, 5};
+        int p = 5;
+        int q = 2;
+        TreeNode root = new TreeNode(vals[0]);
+        for (int i = 1; i < vals.length; i++){
+            insert(root, vals[i]);
+        }
+        //find common
+        TreeNode lca = findLCA(root, p, q);
+        System.out.println("lca is " + lca.val);
+        int d1 = findNode(lca, new TreeNode(p));
+        int d2 = findNode(lca, new TreeNode(q));
+        if (d1 == -1 || d2 == -1) System.out.println("-1");
+        else
+        System.out.println("d1 is " + d1 + " d2 is " + d2);
+        /*System.out.println(root.val);
+        System.out.println(root.right.val);
+        System.out.println(root.right.left.val);
+        System.out.println(root.right.left.right.val);*/
+      }
+    }
+
+
+    2017-03-02 17:25 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+        When define pq, need to give a initial size for better performance; here is list.length;
+
+
+
+        PriorityQueue<ListNode> queue= new PriorityQueue<ListNode>(lists.length, new Comparator<ListNode>(){
+
+        2017-03-02 16:46 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+            内嵌图片 1
+
+            2017-03-02 16:45 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                //the most easier one:
+                //
+                public class HashEntry {
+                      private int key;
+                      private int value;
+                      HashEntry(int key, int value) {
+                            this.key = key;
+                            this.value = value;
+                      }    
+
+                      public int getKey() {
+                            return key;
+                      }
+
+                      public int getValue() {
+                            return value;
+                      }
+                }
+
+                public class HashMap {
+                      private final static int TABLE_SIZE = 128;
+                      HashEntry[] table;
+                      HashMap() {
+                            table = new HashEntry[TABLE_SIZE];
+                            for (int i = 0; i < TABLE_SIZE; i++)
+                                  table[i] = null;
+                      }
+
+                      public int get(int key) {
+                            int hash = (key.hashCode() % TABLE_SIZE);
+                            if (table[hash] == null)
+                               return -1;
+                            else
+                               return table[hash].getValue();
+                      }
+
+                      public void put(int key, int value) {
+                            int hash = (key.hashCode() % TABLE_SIZE);
+                            table[hash] = new HashEntry(key, value);
+                      }
+                }
+
+
+
+
+                easier:
+                public class HashEntry {
+                      private int key;
+                      private int value;
+                      HashEntry(int key, int value) {
+                            this.key = key;
+                            this.value = value;
+                      }    
+
+                      public int getKey() {
+                            return key;
+                      }
+
+                      public int getValue() {
+                            return value;
+                      }
+                }
+
+
+                public class HashMap {
+                      private final static int TABLE_SIZE = 128;
+                      HashEntry[] table;
+                      HashMap() {
+                            table = new HashEntry[TABLE_SIZE];
+                            for (int i = 0; i < TABLE_SIZE; i++)
+                                  table[i] = null;
+                      }
+
+                      public int get(int key) {
+                            int hash = (key % TABLE_SIZE);
+                            while (table[hash] != null && table[hash].getKey() != key)
+                                  hash = (hash + 1) % TABLE_SIZE;
+                            if (table[hash] == null)
+                                  return -1;
+                            else
+                                  return table[hash].getValue();
+                      }
+
+                      public void put(int key, int value) { //bug if no available space, while is run infinitely
+                            int hash = (key % TABLE_SIZE);  //in reality, size is dynamic, so no problem.
+                            while (table[hash] != null && table[hash].getKey() != key)
+                                  hash = (hash + 1) % TABLE_SIZE;
+                            table[hash] = new HashEntry(key, value);
+                      }
+                }
+
+                harder:
+                // Java program to demonstrate implementation of our
+                // own hash table with chaining for collision detection
+
+                import java.util.ArrayList;
+
+                // A node of chains
+
+                class HashNode<K, V>
+                {
+                    K key;
+                    V value;
+
+                    // Reference to next node
+                    HashNode<K, V> next;
+
+                    // Constructor
+                    public HashNode(K key, V value)
+                    {
+                        this.key = key;
+                        this.value = value;
+                    }
+                }
+
+                // Class to represent entire hash table
+                class Map<K, V>
+                {
+                    // bucketArray is used to store array of chains
+                    private ArrayList<HashNode<K, V>> bucketArray;
+
+                    // Current capacity of array list
+                    private int numBuckets;
+
+                    // Current size of array list
+                    private int size;
+
+                    // Constructor (Initializes capacity, size and
+                    // empty chains.
+                    public Map()
+                    {
+                        bucketArray = new ArrayList<>();
+                        numBuckets = 10;
+                        size = 0;
+
+                        // Create empty chains
+                        for (int i = 0; i < numBuckets; i++)
+                            bucketArray.add(null);
+                    }
+
+                    public int size() { return size; }
+                    public boolean isEmpty() { return size() == 0; }
+
+                    // This implements hash function to find index
+                    // for a key
+                    private int getBucketIndex(K key)
+                    {
+                        int hashCode = key.hashCode();
+                        int index = hashCode % numBuckets;
+                        return index;
+                    }
+
+                    // Method to remove a given key
+                    public V remove(K key)
+                    {
+                        // Apply hash function to find index for given key
+                        int bucketIndex = getBucketIndex(key);
+
+                        // Get head of chain
+                        HashNode<K, V> head = bucketArray.get(bucketIndex);
+
+                        // Search for key in its chain
+                        HashNode<K, V> prev = null;
+                        while (head != null)
+                        {
+                            // If Key found
+                            if (head.key.equals(key))
+                                break;
+
+                            // Else keep moving in chain
+                            prev = head;
+                            head = head.next;
+                        }
+
+                        // If key was not there
+                        if (head == null)
+                            return null;
+
+                        // Reduce size
+                        size--;
+
+                        // Remove key
+                        if (prev != null)
+                            prev.next = head.next;
+                        else
+                            bucketArray.set(bucketIndex, head.next);
+
+                        return head.value;
+                    }
+
+                    // Returns value for a key
+                    public V get(K key)
+                    {
+                        // Find head of chain for given key
+                        int bucketIndex = getBucketIndex(key);
+                        HashNode<K, V> head = bucketArray.get(bucketIndex);
+
+                        // Search key in chain
+                        while (head != null)
+                        {
+                            if (head.key.equals(key))
+                                return head.value;
+                            head = head.next;
+                        }
+
+                        // If key not found
+                        return null;
+                    }
+
+                    // Adds a key value pair to hash
+                    public void add(K key, V value)
+                    {
+                        // Find head of chain for given key
+                        int bucketIndex = getBucketIndex(key);
+                        HashNode<K, V> head = bucketArray.get(bucketIndex);
+
+                        // Check if key is already present
+                        while (head != null)
+                        {
+                            if (head.key.equals(key))
+                            {
+                                head.value = value;
+                                return;
+                            }
+                            head = head.next;
+                        }
+
+                        // Insert key in chain
+                        size++;
+                        head = bucketArray.get(bucketIndex);
+                        HashNode<K, V> newNode = new HashNode<K, V>(key, value);
+                        newNode.next = head;
+                        bucketArray.set(bucketIndex, newNode);
+
+                        // If load factor goes beyond threshold, then
+                        // double hash table size
+                        if ((1.0*size)/numBuckets >= 0.7)
+                        {
+                            ArrayList<HashNode<K, V>> temp = bucketArray;
+                            bucketArray = new ArrayList<>();
+                            numBuckets = 2 * numBuckets;
+                            size = 0;
+                            for (int i = 0; i < numBuckets; i++)
+                                bucketArray.add(null);
+
+                            for (HashNode<K, V> headNode : temp)
+                            {
+                                while (headNode != null)
+                                {
+                                    add(headNode.key, headNode.value);
+                                    headNode = headNode.next;
+                                }
+                            }
+                        }
+                    }
+
+                    // Driver method to test Map class
+                    public static void main(String[] args)
+                    {
+                        Map<String, Integer>map = new Map<>();
+                        map.add("this",1 );
+                        map.add("coder",2 );
+                        map.add("this",4 );
+                        map.add("hi",5 );
+                        System.out.println(map.size());
+                        System.out.println(map.remove("this"));
+                        System.out.println(map.remove("this"));
+                        System.out.println(map.size());
+                        System.out.println(map.isEmpty());
+                    }
+                }
+
+                2017-03-02 16:39 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                    Stack implementation:
+                    public class MyStack {
+                       private int maxSize;
+                       private long[] stackArray;
+                       private int top;
+                       
+                       public MyStack(int s) {
+                          maxSize = s;
+                          stackArray = new long[maxSize];
+                          top = -1;
+                       }
+                       public void push(long j) {
+                          stackArray[++top] = j;
+                       }
+                       public long pop() {
+                          return stackArray[top--];
+                       }
+                       public long peek() {
+                          return stackArray[top];
+                       }
+                       public boolean isEmpty() {
+                          return (top == -1);
+                       }
+                       public boolean isFull() {
+                          return (top == maxSize - 1);
+                       }
+
+
+                    2017-03-02 16:38 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                        when to use no SQL?
+
+                        how to detect what is hanging in program? Use Jstat in jdk to dump currently active threads.
+
+                        How to sort if mostly sorted ?  using insertion sort.
+
+                        How to avoid race condition? use synchronization in java;
+
+                        How to define immutable obj in java?
+
+                        The following rules define a simple strategy for creating immutable objects. Not all classes documented as "immutable" follow these rules. This does not necessarily mean the creators of these classes were sloppy — they may have good reason for believing that instances of their classes never change after construction. However, such strategies require sophisticated analysis and are not for beginners.
+
+                            Don't provide "setter" methods — methods that modify fields or objects referred to by fields.
+                            Make all fields final and private.
+                            Don't allow subclasses to override methods. The simplest way to do this is to declare the class as final. A more sophisticated approach is to make the constructor private and construct instances in factory methods.
+                            If the instance fields include references to mutable objects, don't allow those objects to be changed:
+                                Don't provide methods that modify the mutable objects.
+                                Don't share references to the mutable objects. Never store references to external, mutable objects passed to the constructor; if necessary, create copies, and store references to the copies. Similarly, create copies of your internal mutable objects when necessary to avoid returning the originals in your methods.
+
+                        How to detect outofmemory root cause in java?
+
+                        Memory leaks: keep around references to objects that you no longer are using. As long as objects have a reference to them they will continue to use heap space as the garbage collector will not delete them. In this case you can use a Java memory profiler to determine what methods in your program are allocating large number of objects and then determine if there is a way to make sure they are no longer referenced.
+
+
+                        2017-03-01 12:19 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                            leaf.clear(); //remember it }
+
+                            return new ArrayList<>(res); //remember it
+
+                            res and leaf are both set.
+
+                            2017-03-01 12:02 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                    int[] arr = new int[]{1, 2, 3};
+                                    System.out.println(Arrays.toString(arr));
+                                both print [1, 2, 3]
+
+                                2017-03-01 12:01 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                    both print [1, 2, 3]
+
+                                    2017-03-01 11:47 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                            List<Integer> list = new ArrayList<Integer>();
+                                            list.add(1);
+                                            list.add(2);
+                                            list.add(3);
+                                            System.out.println(Arrays.toString(list.toArray()));
+                                            System.out.println(list);  //ju ran OK.
+
+
+                                        2017-02-28 15:50 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                            import java.io.*;
+                                            import java.util.*;
+
+                                            /*
+                                             * To execute Java, please define "static void main" on a class
+                                             * named Solution.
+                                             *
+                                             * If you need more classes, simply define them inline.
+                                             */
+
+                                            class Solution {
+                                              public static class TreeNode{
+                                                int val;
+                                                TreeNode left;
+                                                TreeNode right;
+                                                TreeNode(int val){
+                                                  this.val = val;
+                                                }
+                                              }
+                                             
+                                             
+                                              public static void insert(TreeNode root, int val){
+                                                if (root == null) return;
+                                                if (root.val > val){
+                                                  if (root.left == null){
+                                                    root.left = new TreeNode(val);
+                                                  }
+                                                  else{
+                                                    insert(root.left, val);
+                                                  }
+                                                }
+                                                else{
+                                                  if (root.right == null){
+                                                    root.right = new TreeNode(val);
+                                                  }
+                                                  else{
+                                                    insert(root.right, val);
+                                                  }
+                                                }
+                                              }
+                                             
+                                              public static TreeNode findLCA(TreeNode root, int p, int q){
+                                                  if (root == null) return null;
+                                                  int big = Math.max(p, q);
+                                                  int small = Math.min(p, q);
+                                                  if (big < root.val){
+                                                      return findLCA(root.left, p, q);
+                                                  }
+                                                  else if (root.val <= big && root.val >= small){
+                                                      return root;
+                                                  }
+                                                  else{
+                                                      return findLCA(root.right, p, q);
+                                                  }
+                                              }
+                                             
+                                              public static int findNode(TreeNode root, TreeNode p){
+                                                  int cnt = 0;
+                                                  while(root != null && root.val != p.val){
+                                                    if (root.val > p.val){
+                                                      root = root.left;
+                                                    }
+                                                    else{
+                                                      root = root.right;
+                                                    }
+                                                    cnt++;
+                                                  }
+                                                  return root == null ? -1 : cnt;
+                                              }
+                                             
+                                              public static void main(String[] args) {
+                                                /*int[] vals = new int[]{15, 5, 2, 9, 1, 6, 12, 22, 16, 21, 29};
+                                                int p = 6;
+                                                int q = 21;*/
+                                                int[] vals = new int[]{1, 2, 3, 4, 5};
+                                                int p = 5;
+                                                int q = 2;
+                                                TreeNode root = new TreeNode(vals[0]);
+                                                for (int i = 1; i < vals.length; i++){
+                                                    insert(root, vals[i]);
+                                                }
+                                                //find common
+                                                TreeNode lca = findLCA(root, p, q);
+                                                System.out.println("lca is " + lca.val);
+                                                int d1 = findNode(lca, new TreeNode(p));
+                                                int d2 = findNode(lca, new TreeNode(q));
+                                                if (d1 == -1 || d2 == -1) System.out.println("-1");
+                                                else
+                                                System.out.println("d1 is " + d1 + " d2 is " + d2);
+                                                /*System.out.println(root.val);
+                                                System.out.println(root.right.val);
+                                                System.out.println(root.right.left.val);
+                                                System.out.println(root.right.left.right.val);*/
+                                              }
+                                            }
+
+
+                                            2017-02-28 15:32 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                                how to build mutithread system:
+                                                think how many threads can run concurrently, has priority or not; how to do synchronization thread in java; how to set the lifecycle; how to avoid deadlock(never request for different lock by two theads); handle interthread communication(use wait/notify methods); in java use implement runnable interface for mutithreading.
+
+                                                2017-02-25 10:09 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                                    //used to find the left and right index of max subarray
+
+                                                          int[] nums = new int[]{1, -3, 5, -2, 9, -8, -6, 4};
+                                                          int[] sum = new int[nums.length + 1];
+                                                          int max = Integer.MIN_VALUE;
+                                                          int tmp = 0;
+                                                          int min = 0;
+                                                          int left = 0;
+                                                          int right = 0;
+                                                          int leftTmp = 0;
+                                                    //need to update by ORDER, first update max, then min; for max, has to be sum[i] - min; not max - min
+
+                                                          for (int i = 1; i <= nums.length; i++){
+                                                              sum[i] += sum[i - 1] + nums[i - 1];
+                                                              if (max < sum[i] - min){
+                                                                  right = i - 1;
+                                                                  max = sum[i] - min;
+                                                                  left = leftTmp;
+                                                              }
+                                                              if (min > sum[i]){
+                                                                  System.out.println("i is " + i);
+                                                                  min = sum[i];
+                                                                  leftTmp = i;
+                                                              }
+
+                                                          }
+                                                          System.out.println("left is " + left +" right is " + right);
+                                                      }
+
+                                                    2017-02-25 9:58 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                                        //used to find the left and right index of max subarray
+
+                                                              int[] nums = new int[]{1, -3, 5, -2, 9, -8, -6, 4};
+                                                              int[] sum = new int[nums.length + 1];
+                                                              int max = Integer.MIN_VALUE;
+                                                              int tmp = 0;
+                                                              int min = 0;
+                                                              int left = 0;
+                                                              int right = 0;
+                                                              int leftTmp = 0;
+                                                              for (int i = 1; i <= nums.length; i++){
+                                                                  sum[i] += sum[i - 1] + nums[i - 1];
+                                                                  if (max < sum[i] - min){
+                                                                      right = i - 1;
+                                                                      max = sum[i] - min;
+                                                                      left = leftTmp;
+                                                                  }
+                                                                  if (min > sum[i]){
+                                                                      System.out.println("i is " + i);
+                                                                      min = sum[i];
+                                                                      leftTmp = i;
+                                                                  }
+
+                                                              }
+                                                              System.out.println("left is " + left +" right is " + right);
+                                                          }
+
+                                                        2017-02-25 7:47 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+                                                            list2 = Arrays.asList(new String[]{"aa", "aa", "black"});
+
+                                                            2017-02-25 7:34 GMT-08:00 Guo Rick <rickguo2011@gmail.com>:
+
+
+
+
+
+
+
+
+
+
+
+
