@@ -16,6 +16,32 @@ First, iterate the array counting number of 0's, 1's, and 2's, then overwrite ar
 
 Could you come up with an one-pass algorithm using only constant space?
 */
+
+public class Solution {
+    public void sortColors(int[] nums) {
+        if (nums == null || nums.length == 0) return;
+        int zeros = 0, twos = nums.length - 1, i = 0;
+        while(i <= twos){//see notebook, this is like the 3 -way partitioning quick sort lt, ==, gt
+            if (nums[i] == 0){
+                exchange(nums, zeros, i);
+                zeros++;
+                i++;
+            } 
+            else if (nums[i] == 2){
+                exchange(nums, i, twos);
+                twos--;
+            }
+            else i++;
+        }
+    }
+    private void exchange(int[] nums, int i, int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
+
+
 below solution use the least number of swap: //asked by pure storage
 public class Solution {
     public void sortColors(int[] nums) {
