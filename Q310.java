@@ -92,7 +92,7 @@ public class Solution {
 }
 
 
-//My solution
+//My solution (if using set instead of list, could be trully O(n); otherwise list.remove((Integer)) cost longer
 public class Solution {
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
         List<Integer> res = new ArrayList<>();
@@ -136,7 +136,38 @@ public class Solution {
         return res;
     }
 }
-
+//using HashSet
+public class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {//O(n); n is number of nodes
+        List<Integer> res = new ArrayList<>();
+        if (n == 1) {
+            res.add(0); return res;
+        }
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for (int[] e: edges){
+            Set<Integer> list0 = map.getOrDefault(e[0], new HashSet<>());
+            list0.add(e[1]);
+            Set<Integer> list1 = map.getOrDefault(e[1], new HashSet<>());
+            list1.add(e[0]);
+            map.put(e[0], list0);
+            map.put(e[1], list1);
+        }
+        Set<Integer> leaf = new HashSet<>();
+        while(map.size() > 2){
+            for (int i: map.keySet()){
+                if (map.get(i).size() <= 1) leaf.add(i);
+            }
+            for (int i: leaf){
+                for (int v: map.get(i)) map.get(v).remove(i);
+                map.remove(i);
+            }
+            leaf.clear();
+            
+        }
+        for (int i : map.keySet()) res.add(i);
+        return res;
+    }
+}
 
 /*
 public class HashSetDemo {
