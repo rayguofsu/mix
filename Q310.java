@@ -124,7 +124,8 @@ public class Solution {
                 int end = map.get(key).get(0);
                 System.out.println(key + " " + end);
                 //remember below
-                map.get(end).remove((Integer) key);
+                map.get(end).remove((Integer) key);//remember feeling that cannot use list, as list.remove has two def, i.e. 1). remove(int pos) 2). remove(object)
+        }
                 map.remove(key);
             }
             leaf.clear(); //remember this.
