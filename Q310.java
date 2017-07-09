@@ -47,7 +47,7 @@
 
 
 public class Solution {
-    //The idea is to layer by layer BFS from the leaf nodes. The last one or two nodes would be the center
+    //On line solution The idea is to layer by layer BFS from the leaf nodes. The last one or two nodes would be the center
   public List<Integer> findMinHeightTrees(int n, int[][] edges) { 
 
 
@@ -92,7 +92,7 @@ public class Solution {
 }
 
 
-below is my solution, has TLE
+//My solution
 public class Solution {
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
         List<Integer> res = new ArrayList<>();
