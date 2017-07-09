@@ -123,6 +123,7 @@ public class Solution {
                 System.out.println(key);
                 int end = map.get(key).get(0);
                 System.out.println(key + " " + end);
+                //remember below
                 map.get(end).remove((Integer) key);
                 map.remove(key);
             }
