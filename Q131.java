@@ -24,7 +24,7 @@ Then for each unique partitioning,
 you have to traverse the entire string (in the worst case when you have repeating chars) to make sure 
 every partition is a palindrome. 
   so n * 2 ^ (n - 1) = O(n*2^n).
-
+time complexity O(n*2^n), space complexity O(2^n)
 
 //String string="whatever";
 //String reverse = new StringBuffer(string).reverse().toString();
