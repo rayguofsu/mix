@@ -14,6 +14,18 @@ Return
   ]
 
 
+Should be O(n*2^n). You are basically trying out every possible partition out there. 
+  For a string with length n, you will have 2^(n - 1) ways to partition it. 
+  This is because, a partition is equivalent of putting a "|" in b/t two chars. 
+  There are n - 1 such slots to place a "|". There are only two choice for each slot - placing a "|" or not placing a "|". 
+ Thus 2^(n - 1) ways to place "|"s.
+
+Then for each unique partitioning, 
+you have to traverse the entire string (in the worst case when you have repeating chars) to make sure 
+every partition is a palindrome. 
+  so n * 2 ^ (n - 1) = O(n*2^n).
+
+
 //String string="whatever";
 //String reverse = new StringBuffer(string).reverse().toString();
 
