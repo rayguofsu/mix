@@ -1,0 +1,5 @@
+        int a = Math.min('a', 'b');
+        System.out.println(a);
+        char c = 96 + 5;
+        int cc = c + 1;
+        char ccc = c + 1; ------this one is wrong; possible convertion loss from integer to char; need to do char ccc = (char) (c + 1);
