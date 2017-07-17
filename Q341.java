@@ -13,7 +13,38 @@ Example 2:
 Given the list [1,[4,[6]]],
 
 By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6]. 
+public class NestedIterator implements Iterator<Integer> {
+    List<NestedInteger> list; //Own solution
+    public NestedIterator(List<NestedInteger> nestedList) {
+        list = new LinkedList<NestedInteger>(nestedList);
+    }
+
+    @Override
+    public Integer next() {
+        return list.remove(0).getInteger();
+    }
+
+    @Override
+    public boolean hasNext() {
+        while(list.size() > 0 && !list.get(0).isInteger()){
+            List<NestedInteger> sub = list.remove(0).getList();
+            for (int i = sub.size() - 1; i >= 0; i--){
+                list.add(0, sub.get(i));
+            }
+        }
+        return list.size() != 0;
+    }
+}
+
 /**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i = new NestedIterator(nestedList);
+ * while (i.hasNext()) v[f()] = i.next();
+ */
+    
+    
+    
+    /**
  * // This is the interface that allows for creating nested lists.
  * // You should not implement it, or speculate about its implementation
  * public interface NestedInteger {
