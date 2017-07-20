@@ -2,7 +2,7 @@
 Total Accepted: 62803 Total Submissions: 262807 Difficulty: Medium
 
 Sort a linked list in O(n log n) time using constant space complexity.
-
+//use 2nd solution ie. merge sort
 public ListNode sortList(ListNode head) {
   //JAVA 5ms Quick Sort //O(n log n) average but O(n^2) worst
   //merge sort is O(n log n) for both average and worst cases
