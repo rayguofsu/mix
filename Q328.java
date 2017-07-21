@@ -21,6 +21,26 @@ The first node is considered odd, the second node even and so on ...
  *     ListNode(int x) { val = x; }
  * }
  */
+        public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode odd = head;
+        ListNode even = head.next;
+        ListNode headEven = even;
+        ListNode prev = head;
+        while(odd != null && even != null){
+            odd.next = even.next;
+            prev = odd;
+            odd = odd.next;
+            if (odd != null){
+                even.next = odd.next;
+                even = even.next;
+            }
+        }
+        if (odd != null) odd.next = headEven;
+        else prev.next = headEven;
+        return head;
+    }
+    
 public class Solution {
     public ListNode oddEvenList(ListNode head) {
         if (head == null) return head;
